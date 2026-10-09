@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRON FIST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Michroma&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     PANTALLA 1 — INICIO
+====================================================== -->
+<section class="pantalla inicio activa" id="pantallaInicio">
+
+    <div class="panel-inicio">
+
+        <h1 class="titulo-inicio">
+            ¿PREPARADO PARA
+            <span>SALVAR EL MUNDO?</span>
+        </h1>
+
+        <div class="planeta-inicio">
+            <img src="assets/tierra.jpg" alt="Tierra">
+        </div>
+
+        <p class="descripcion">
+            <strong>IRON FIST</strong>, es un juego que mejorará tus reflejos
+            a medida que pases de nivel, retando cada vez más a medida que
+            avances y desbloqueando grandes logros al final de cada nivel,
+            esperamos que te diviertas y disfrutes de este gran juego.
+        </p>
+
+        <button class="boton-principal" id="btnPreparado" type="button" onclick="irAReglas()">
+            <span>ESTOY PREPARADO</span>
+            <b>»</b>
+        </button>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     PANTALLA 2 — REGLAS
+====================================================== -->
+<section class="pantalla reglas" id="pantallaReglas">
+
+    <div class="contenedor-reglas">
+
+        <header class="encabezado-reglas">
+            <h1>ANTES DE EMPEZAR LEE,</h1>
+            <h2>LAS REGLAS</h2>
+
+            <div class="ornamento">
+                <span>◉</span>
+                <i></i><i></i><i></i><i></i>
+            </div>
+        </header>
+
+
+        <div class="lista-reglas">
+
+            <article class="regla">
+                <div class="numero">1</div>
+
+                <div class="contenido-regla">
+                    <h3>PUNTOS</h3>
+                    <p>
+                        Lo que se encuentra señalado son los <strong>puntos</strong>,
+                        que según tu progreso, se irán incrementando al desviar
+                        meteoritos de la Tierra. Si los puntos obtenidos
+                        <strong>llegan a 30</strong>, es una <strong>victoria automática</strong>,
+                        pero recuerda que los meteoritos son impredecibles en su ataque.
+                    </p>
+                </div>
+
+                <div class="imagen-regla">
+                    <img src="assets/meteorito.jpg" alt="Meteorito">
+                </div>
+            </article>
+
+
+            <article class="regla">
+                <div class="numero">2</div>
+
+                <div class="contenido-regla">
+                    <h3>TIEMPO</h3>
+                    <p>
+                        El tiempo señalado es el <strong>límite máximo</strong>
+                        que puede aguantar la defensa, siendo unos
+                        <strong>60 segundos</strong>. Debes cumplir el límite
+                        de puntos o será <strong>GAME OVER</strong> automático.
+                    </p>
+                </div>
+
+                <div class="imagen-regla">
+                    <img src="assets/michi.jpg" alt="Reloj del tiempo">
+                </div>
+            </article>
+
+
+            <article class="regla">
+                <div class="numero">3</div>
+
+                <div class="contenido-regla">
+                    <h3>REGLA 3 Y 4</h3>
+                    <p>
+                        Estos son los <strong>meteoritos</strong> que debes evitar
+                        que ingresen a la Tierra. Suelen ser rápidos, así que
+                        no te descuides. Cuando crucen el límite será inevitable
+                        nuestra salvación: <strong>GAME OVER.</strong>
+                    </p>
+                </div>
+
+                <div class="imagen-regla">
+                    <img src="assets/kometa.jpg" alt="Cometa">
+                </div>
+            </article>
+
+        </div>
+
+
+        <button class="boton-listo" id="btnListo" type="button" onclick="irACapitulo()">
+            <span>¿ESTÁS LISTO?</span>
+            <b>»</b>
+        </button>
+
+    </div>
+</section>
+
+
+
+<!-- =====================================================
+     PANTALLA 3 — CAPÍTULO I
+====================================================== -->
+<section class="pantalla capitulo" id="pantallaCapitulo">
+
+    <div class="capitulo-layout">
+
+        <div class="capitulo-izquierda">
+
+            <header class="titulo-historia">
+                <h1>TODO EMPEZÓ</h1>
+                <h2>CUANDO...</h2>
+
+                <div class="ornamento historia-ornamento">
+                    <span>◉</span>
+                    <i></i><i></i><i></i><i></i>
+                </div>
+            </header>
+
+            <div class="marco-historia">
+                <div class="media-historia">
+                    <video class="media-capitulo-video" autoplay muted loop playsinline preload="auto">
+                        <source src="assets/galaxy_capitulo.mp4" type="video/mp4">
+                        Tu navegador no puede reproducir este video.
+                    </video>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-capitulo">
+
+            <div class="mini-ornamento">///// ◉</div>
+
+            <div class="capitulo-etiqueta">CAPÍTULO I:</div>
+            <h2>NUESTRA SALVACIÓN</h2>
+
+            <div class="bloque-mision">
+                <div class="icono-mision">◎</div>
+                <div>
+                    <h3>MISIÓN:</h3>
+                    <p>
+                        Proteger la Tierra de la lluvia de meteoritos.
+                        Los impactos están cada vez más cerca. Tu objetivo
+                        será demostrar tus reflejos, evitar los meteoritos
+                        y conseguir suficientes puntos para salvar el planeta.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bloque-objetivo">
+                <div class="icono-objetivo">⚑</div>
+                <div>
+                    <h3>OBJETIVO:</h3>
+                    <p>Sobrevive y alcanza la puntuación requerida.</p>
+                </div>
+            </div>
+
+            <div class="acciones-capitulo">
+                <button class="boton-capitulo" id="btnPreparadoCapitulo" type="button">
+                    <span>¿ESTÁS PREPARADO?</span>
+                    <b>»</b>
+                </button>
+
+                <button class="boton-play" id="btnPlayCapitulo" type="button" aria-label="Escuchar misión" title="Escuchar misión">
+                    ▶
+                </button>
+
+                <audio id="audioMision" preload="auto">
+                    <source src="assets/voz_mision.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =====================================================
+     PANTALLA 4 — NIVEL 1
+====================================================== -->
+<section class="pantalla nivel1" id="pantallaNivel1">
+    <div class="nivel1-hud">
+        <div class="hud-item"><span>NIVEL</span><strong>01</strong></div>
+        <div class="hud-item"><span>PUNTOS</span><strong><b id="nivel1Puntos">0</b> / 30</strong></div>
+        <div class="hud-item"><span>VIDAS</span><strong id="nivel1Vidas">♥ ♥ ♥</strong></div>
+        <div class="hud-item"><span>TIEMPO</span><strong><b id="nivel1Tiempo">60</b>s</strong></div>
+        <button id="pausaNivel1" class="boton-pausa" type="button">❚❚ PAUSA</button>
+    </div>
+
+    <div class="nivel1-escenario" id="nivel1Escenario">
+        <div class="estrellas-nivel"></div>
+        <div id="meteoritosNivel1"></div>
+        <div id="disparosNivel1"></div>
+        <img id="naveNivel1" class="nave-nivel1" src="assets/nave_nivel1.png" alt="Nave">
+        <div id="mensajeFuego" class="mensaje-fuego">¡FUEGO!</div>
+        <div id="cuentaNivel1" class="cuenta-nivel1">3</div>
+    </div>
+
+    <div id="overlayPausaNivel1" class="overlay-pausa-nivel1">
+        <div class="panel-pausa-nivel1">
+            <div class="icono-pausa">Ⅱ</div>
+            <h2>JUEGO EN PAUSA</h2>
+            <p>La misión está detenida temporalmente.</p>
+            <button id="continuarNivel1" type="button">▶ CONTINUAR</button>
+        </div>
+    </div>
+
+    <div class="controles-nivel1">
+        <button id="moverIzq" class="control-nivel1">◀</button>
+        <button id="dispararNivel1" class="disparo-nivel1">🔫 DISPARAR</button>
+        <button id="moverDer" class="control-nivel1">▶</button>
+    </div>
+    <div class="ayuda-nivel1">← → MOVER &nbsp;&nbsp; | &nbsp;&nbsp; ESPACIO DISPARAR</div>
+
+    <audio id="musicaNivel1" preload="auto" loop src="assets/musica_nivel1.mp3"></audio>
+    <audio id="sonidoDisparo" preload="auto" src="assets/disparo.mp3"></audio>
+    <audio id="sonidoVictoria" preload="auto" src="assets/victoria.mp3"></audio>
+    <audio id="sonidoGameOver" preload="auto" src="assets/game_over.mp3"></audio>
+</section>
+
+<!-- =====================================================
+     PANTALLA 5 — VICTORIA
+====================================================== -->
+<section class="pantalla final-juego" id="pantallaVictoria">
+    <div class="final-juego-panel victoria-panel">
+        <div class="final-juego-icono">✦</div>
+        <div class="final-juego-tag">MISIÓN COMPLETADA</div>
+        <h1>¡FELICIDADES!</h1>
+        <h2>LO HAS CONSEGUIDO</h2>
+        <p>Has protegido la Tierra de la lluvia de meteoritos.</p>
+        <div class="resultado-final">PUNTUACIÓN <strong id="puntosVictoria">30</strong> / 30</div>
+        <div class="acciones-victoria">
+            <button id="volverNivelVictoria" class="boton-final-juego secundario">↻ VOLVER A JUGAR</button>
+            <button id="siguienteNivel" class="boton-final-juego siguiente">SIGUIENTE NIVEL <b>»</b></button>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     PANTALLA 6 — PREPARACIÓN NIVEL 2
+====================================================== -->
+<section class="pantalla nivel2-intro" id="pantallaNivel2Intro">
+    <div class="nivel2-decor meteorito-decor m1">☄</div>
+    <div class="nivel2-decor meteorito-decor m2">☄</div>
+    <div class="nivel2-decor planeta-decor p1">◉</div>
+    <div class="nivel2-decor planeta-decor p2">◉</div>
+
+    <div class="panel-nivel2-intro">
+        <div class="nivel2-cabecera">
+            <div class="nivel2-planeta">◉</div>
+            <div>
+                <div class="nivel2-mini">NIVEL 2</div>
+                <div class="nivel2-subtitulo">LLUVIA DE METEORITOS</div>
+            </div>
+            <div class="nivel2-planeta">◉</div>
+        </div>
+
+        <div class="nivel2-contenido">
+            <div class="tiburon-wrap">
+                <div class="tiburon-glow"></div>
+                <img class="tiburon-espacial" src="assets/tiburon_espacial.png" alt="Tiburón astronauta">
+            </div>
+
+            <div class="nivel2-centro">
+                <div class="nivel2-etiqueta">NIVEL 2</div>
+                <div class="nivel2-titulo">¿LISTO PARA<br><span>SALVAR EL MUNDO?</span></div>
+
+                <div class="nivel2-dificultad">
+                    <small>DIFICULTAD</small>
+                    <div class="barras-dificultad"><i></i><i></i><i></i><i></i><i></i></div>
+                    <strong>MEDIA</strong>
+                </div>
+
+                <div class="objetivo-nivel2">
+                    <div class="objetivo-icono">◎</div>
+                    <div><b>OBJETIVO</b><p>Derrota al tiburón espacial, esquiva sus ataques y reduce su barra de vida a cero antes de que termine el tiempo.</p></div>
+                </div>
+
+                <button id="jugarNivel2" class="boton-nivel2">JUGAR <b>▶</b></button>
+            </div>
+
+            <div class="meteoritos-lado" aria-hidden="true">
+                <span>☄</span><span>☄</span><span>☄</span><span>☄</span>
+            </div>
+        </div>
+
+        <button id="volverVictoriaDesdeNivel2" class="volver-nivel2">← VOLVER</button>
+    </div>
+</section>
+
+<!-- =====================================================
+     PANTALLA 7 — GAMEPLAY NIVEL 2: JEFE TIBURÓN
+====================================================== -->
+<section class="pantalla nivel2-juego" id="pantallaNivel2">
+  <header class="hud-nivel2-juego">
+    <div><small>NIVEL 02</small><strong>JEFE: TIBURÓN ESPACIAL</strong></div>
+    <div class="hud2-dato"><small>TIEMPO</small><strong><span id="nivel2Tiempo">60</span>s</strong></div>
+    <div class="hud2-dato"><small>PUNTOS</small><strong><span id="nivel2Puntos">0</span> / 34</strong></div>
+    <div class="hud2-dato"><small>VIDAS</small><strong id="nivel2Vidas">♥ ♥ ♥</strong></div>
+    <button id="pausaNivel2" class="boton-pausa" type="button">❚❚ PAUSA</button>
+  </header>
+  <div class="escenario-nivel2" id="escenarioNivel2">
+    <div class="estrellas-nivel"></div>
+    <div class="boss-halo"></div>
+    <img id="tiburonJefe" class="tiburon-jefe" src="assets/tiburon_espacial.png" alt="Tiburón jefe">
+    <div class="boss-barra"><div class="boss-barra-titulo"><span>ENERGÍA DEL JEFE</span><strong id="bossPorcentaje">100%</strong></div><div class="boss-track"><i id="bossVida"></i></div></div>
+    <div id="ataquesJefe"></div><div id="disparosNivel2"></div>
+    <img id="naveNivel2" class="nave-nivel1 nave-jugador-n2" src="assets/nave_nivel1.png" alt="Nave del jugador">
+    <div id="cuentaNivel2" class="cuenta-nivel1">3</div>
+    <div id="mensajeFuegoNivel2" class="mensaje-fuego">¡FUEGO!</div>
+  </div>
+  <div class="controles-nivel1 controles-nivel2">
+    <button id="moverIzqNivel2" class="control-nivel1" aria-label="Mover a la izquierda">◀</button>
+    <button id="dispararNivel2" class="disparo-nivel1">⚡ DISPARAR</button>
+    <button id="moverDerNivel2" class="control-nivel1" aria-label="Mover a la derecha">▶</button>
+  </div>
+  <div class="ayuda-nivel1">← → MOVER &nbsp; | &nbsp; ESPACIO DISPARAR</div>
+  <div id="overlayPausaNivel2" class="overlay-pausa-nivel1"><div class="panel-pausa-nivel1"><div class="icono-pausa">Ⅱ</div><h2>JUEGO EN PAUSA</h2><p>El combate contra el tiburón está detenido.</p><button id="continuarNivel2" type="button">▶ CONTINUAR</button></div></div>
+</section>
+
+<section class="pantalla final-juego" id="pantallaVictoriaNivel2">
+  <div class="final-juego-panel victoria-panel"><div class="final-juego-icono">✦</div><div class="final-juego-tag">JEFE DERROTADO</div><h1>¡NIVEL 2 SUPERADO!</h1><h2>EL TIBURÓN HA CAÍDO</h2><p>Has sobrevivido al combate espacial.</p><div class="resultado-final">PUNTUACIÓN <strong id="puntosVictoriaNivel2">34</strong> / 34</div><div class="acciones-victoria"><button id="reintentarNivel2" class="boton-final-juego secundario">↻ VOLVER A JUGAR</button><button id="volverPortadaNivel2" class="boton-final-juego siguiente">VOLVER A PORTADA »</button></div></div>
+</section>
+
+<section class="pantalla final-juego" id="pantallaGameOverNivel2"><div class="final-juego-panel gameover-panel"><div class="final-juego-icono">☠</div><div class="final-juego-tag">SISTEMA CRÍTICO</div><h1>GAME OVER</h1><h2>EL TIBURÓN TE HA VENCIDO</h2><p>Recarga tu nave e inténtalo de nuevo.</p><div class="resultado-final">PUNTUACIÓN <strong id="puntosGameOverNivel2">0</strong> / 34</div><button id="reintentarDerrotaNivel2" class="boton-final-juego">REINTENTAR »</button></div></section>
+
+<!-- =====================================================
+     PANTALLA 7 — GAME OVER
+====================================================== -->
+<section class="pantalla final-juego" id="pantallaGameOver">
+    <div class="final-juego-panel gameover-panel">
+        <div class="final-juego-icono">☠</div>
+        <div class="final-juego-tag">SISTEMA CRÍTICO</div>
+        <h1>GAME OVER</h1>
+        <h2>LA TIERRA ESTÁ EN PELIGRO</h2>
+        <p>No conseguiste detener suficientes meteoritos a tiempo.</p>
+        <div class="resultado-final">PUNTUACIÓN <strong id="puntosGameOver">0</strong> / 30</div>
+        <button id="volverNivelGameOver" class="boton-final-juego">REINTENTAR »</button>
+    </div>
+</section>
+
+<script src="JavaScript.js"></script>
+</body>
+</html>

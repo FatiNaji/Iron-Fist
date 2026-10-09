@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRON FIST</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- =========================================================
+       PANTALLA 1: INICIO
+  ========================================================== -->
+  <section id="inicio" class="pantalla pantalla-inicio activa">
+    <div class="panel-inicio">
+      <h1>¿PREPARADO PARA<br><span>SALVAR EL MUNDO?</span></h1>
+      <div class="tierra-inicio"><img src="assets/tierra.png" alt="Tierra"></div>
+      <p><strong>IRON FIST</strong>, es un juego que mejorará tus reflejos a medida que pases de nivel, retando cada vez más a medida que avances y desbloqueando grandes logros al final de cada nivel.</p>
+      <button class="btn-neon" id="btnPreparado" type="button"><span>ESTOY PREPARADO</span><b>»</b></button>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       PANTALLA 2: REGLAS
+       Todo está construido con HTML/CSS. NO es una imagen.
+  ========================================================== -->
+  <section id="reglas" class="pantalla pantalla-reglas">
+    <div class="reglas-layout">
+      <div class="reglas-izquierda">
+        <header class="titulo-seccion">
+          <h1>ANTES DE EMPEZAR LEE,</h1>
+          <h2>LAS REGLAS</h2>
+          <div class="decoracion">◉ ━━━━━</div>
+        </header>
+
+        <!-- Simulación del tablero que aparece en la referencia -->
+        <div class="mini-juego">
+          <div class="hud">
+            <div><small>PUNTOS OBTENIDOS:</small><strong id="previewPuntos">4</strong></div>
+            <div><small>TIEMPO:</small><strong>60</strong></div>
+            <button id="previewPause" type="button">PAUSAR</button>
+          </div>
+          <div class="zona-preview">
+            <div class="rayo rayo-1"></div>
+            <div class="rayo rayo-2"></div>
+            <div class="rayo rayo-3"></div>
+            <div class="nave">◢</div>
+            <div class="meteorito m1">☄</div>
+            <div class="meteorito m2">☄</div>
+            <div class="meteorito m3">☄</div>
+            <img class="tierra-reglas" src="assets/tierra.png" alt="Tierra">
+            <div class="limite"></div>
+            <div class="marcador marcador-1">1</div>
+            <div class="marcador marcador-2">2</div>
+            <div class="marcador marcador-3">3</div>
+            <div class="marcador marcador-4">4</div>
+          </div>
+        </div>
+
+        <button class="btn-neon btn-listo" id="btnListo" type="button">
+          <span>¿ESTÁS LISTO?</span><b>»</b>
+        </button>
+      </div>
+
+      <div class="reglas-derecha">
+        <article class="tarjeta-regla">
+          <div class="numero-regla">1</div>
+          <div class="texto-regla">
+            <h3>REGLA 1</h3>
+            <p>Lo que se encuentra señalado son los <strong>puntos</strong>, que según tu progreso, se irán incrementando al desviar meteoritos de la Tierra. Si los puntos obtenidos <strong>llegan a 30</strong>, es una <strong>victoria automática</strong>, pero recuerda que los meteoritos son impredecibles en su ataque.</p>
+          </div>
+          <span class="icono-regla">☄</span>
+        </article>
+
+        <article class="tarjeta-regla">
+          <div class="numero-regla">2</div>
+          <div class="texto-regla">
+            <h3>REGLA 2</h3>
+            <p>El tiempo señalado es el <strong>límite máximo</strong> que puede aguantar la defensa, siendo unos <strong>60 segundos</strong>. Debes cumplir el límite de puntos o será <strong>GAME OVER</strong> automático.</p>
+          </div>
+          <span class="icono-regla">⌛</span>
+        </article>
+
+        <article class="tarjeta-regla">
+          <div class="numero-regla">3</div>
+          <div class="texto-regla">
+            <h3>REGLA 3 y 4</h3>
+            <p>Estos son los <strong>meteoritos</strong> que debes evitar que ingresen a la Tierra. Suelen ser rápidos, así que no te descuides. Cuando crucen el límite será inevitable nuestra salvación: <strong>GAME OVER</strong>.</p>
+          </div>
+          <span class="icono-regla">☄</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       PANTALLA 3: NIVEL 1
+  ========================================================== -->
+  <section id="nivel1" class="pantalla pantalla-nivel1">
+    <div class="nivel-top">
+      <div><span>TIEMPO</span><strong id="tiempo">60</strong></div>
+      <div><span>PUNTAJE</span><strong><b id="puntaje">0</b> / 30</strong></div>
+      <button id="btnPausa" type="button">PAUSA / REANUDAR</button>
+    </div>
+
+    <div class="tablero">
+      <div class="nivel-mensaje" id="nivelMensaje">
+        <h1>¡NIVEL 1!</h1>
+        <p>DESVÍA LOS METEORITOS Y SALVA LA TIERRA</p>
+        <button class="btn-neon" id="btnJugar" type="button"><span>JUGAR</span><b>»</b></button>
+      </div>
+      <div class="juego-activo" id="juegoActivo">
+        <div class="nave-jugador">◢</div>
+        <img class="tierra-juego" src="assets/tierra.png" alt="Tierra">
+        <div id="meteoritos"></div>
+        <div class="linea-final"></div>
+      </div>
+    </div>
+
+    <div class="resultado" id="resultado">
+      <h2 id="resultadoTitulo"></h2>
+      <p id="resultadoTexto"></p>
+      <button class="btn-neon" id="btnReintentar" type="button"><span>REINTENTAR</span><b>↻</b></button>
+    </div>
+  </section>
+
+  <!-- AUDIO DEL JUEGO -->
+  <audio id="audioFondo" src="audio/Ciberpunk.mp3" loop></audio>
+  <audio id="audioPunto" src="audio/Puntos.mp3"></audio>
+  <audio id="audioPerdiste" src="audio/Perdiste.mp3"></audio>
+  <audio id="audioGanar" src="audio/fanfare-triumphal.mp3"></audio>
+  <audio id="audioFinal" src="audio/Musica_Epica_Final.mp3"></audio>
+
+  <script src="JavaScript.js"></script>
+</body>
+</html>
