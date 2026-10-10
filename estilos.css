@@ -843,60 +843,216 @@ button{
 @keyframes brilloSiguiente{to{transform:translateX(120%)}}
 
 /* =========================================================
-   NIVEL 2 — PANTALLA DE PREPARACIÓN
+   REGLAS — AJUSTE A LA ALTURA DE LA VENTANA
+   Todo se escala con vh para que quepa sin cortarse y el
+   botón quede por encima de la barra de tareas.
 ========================================================= */
-.nivel2-intro{position:relative;overflow:hidden;align-items:center;justify-content:center;background-image:linear-gradient(rgba(3,2,18,.28),rgba(3,2,18,.62)),url("assets/fondo.png");background-size:cover;background-position:center}
-.nivel2-intro::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,rgba(169,55,255,.18),transparent 34%),radial-gradient(circle at 15% 70%,rgba(0,126,255,.12),transparent 30%);pointer-events:none}
-.panel-nivel2-intro{position:relative;z-index:3;width:min(1000px,88vw);padding:42px 52px 34px;text-align:center;border:2px solid #7e35ff;border-radius:28px;background:rgba(5,5,24,.82);box-shadow:0 0 30px rgba(127,42,255,.45),inset 0 0 35px rgba(78,42,255,.08);clip-path:polygon(2% 0,98% 0,100% 8%,100% 92%,98% 100%,2% 100%,0 92%,0 8%)}
-.nivel2-mini{font:800 14px Orbitron,sans-serif;letter-spacing:6px;color:#a99cff;margin-bottom:12px;text-shadow:0 0 12px #794cff}
-.nivel2-titulo{font:900 clamp(35px,5vw,64px) Audiowide,sans-serif;line-height:1.02;color:#fff;text-shadow:0 0 16px rgba(255,255,255,.2);margin-bottom:24px}
-.nivel2-titulo span{color:#d05cff;text-shadow:0 0 16px #a52cff,0 0 35px rgba(174,60,255,.45)}
-.nivel2-dificultad{width:min(300px,80vw);margin:0 auto 24px;padding:13px 22px;border:1px solid #7d38ff;border-radius:15px;background:rgba(14,8,42,.85)}
-.nivel2-dificultad small{display:block;color:#d75cff;font:800 12px Orbitron,sans-serif;letter-spacing:2px;margin-bottom:8px}.nivel2-dificultad strong{display:block;color:#fff;font:800 12px Orbitron,sans-serif;margin-top:8px}
-.barras-dificultad{display:flex;justify-content:center;gap:7px}.barras-dificultad i{display:block;width:29px;height:13px;border-radius:3px;border:1px solid #873cff;background:#7b24d8;box-shadow:0 0 8px rgba(167,53,255,.55)}.barras-dificultad i:nth-child(n+4){background:rgba(40,15,85,.75);box-shadow:none}
-.objetivo-nivel2{display:flex;align-items:center;gap:20px;text-align:left;width:min(760px,100%);margin:0 auto 28px;padding:17px 22px;border:1px solid #7134db;border-radius:15px;background:rgba(7,7,28,.78);box-shadow:inset 0 0 20px rgba(93,43,190,.08)}
-.objetivo-icono{font-size:45px;color:#dc4fff;text-shadow:0 0 18px #9c28ff}.objetivo-nivel2 b{font:800 13px Orbitron,sans-serif;color:#d254ff;letter-spacing:2px}.objetivo-nivel2 p{margin:6px 0 0;color:#e1dce9;font:13px Michroma,sans-serif;line-height:1.65}
-.boton-nivel2{min-width:260px;padding:17px 32px;border:2px solid #a348ff;border-radius:14px;background:linear-gradient(90deg,#b11cff,#5d27e8,#197fff);color:#fff;font:900 17px Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;box-shadow:0 0 25px rgba(154,47,255,.6);transition:.2s}.boton-nivel2:hover{transform:translateY(-2px);box-shadow:0 0 38px rgba(154,47,255,.8)}.boton-nivel2 b{margin-left:18px}.volver-nivel2{display:block;margin:15px auto 0;border:0;background:none;color:#9d91b9;font:700 10px Orbitron,sans-serif;letter-spacing:2px;cursor:pointer}.volver-nivel2:hover{color:#fff}
-.nivel2-decor{position:absolute;z-index:1;color:#8c4dff;filter:drop-shadow(0 0 18px #8d2cff);opacity:.8}.meteorito-decor{font-size:80px;transform:rotate(25deg)}.m1{top:13%;left:7%;animation:flotaNivel2 4s ease-in-out infinite}.m2{right:8%;bottom:15%;font-size:115px;animation:flotaNivel2 5s ease-in-out infinite reverse}.planeta-decor{right:4%;top:10%;font-size:150px;color:#4a5cff;opacity:.28}
-@keyframes flotaNivel2{50%{transform:translateY(-18px) rotate(45deg)}}
-@media(max-width:700px){.acciones-victoria{gap:9px}.boton-final-juego{padding:13px 17px;font-size:10px}.panel-nivel2-intro{padding:30px 18px}.objetivo-nivel2{gap:10px;padding:14px}.objetivo-icono{font-size:34px}.objetivo-nivel2 p{font-size:10px}.boton-nivel2{min-width:210px}.planeta-decor{font-size:90px}}
+.reglas{
+    align-items:flex-start;
+    padding:clamp(10px,2.4vh,28px) 5vw clamp(56px,10vh,96px);
+    overflow-y:auto;
+}
+.contenedor-reglas{margin:auto}
+.encabezado-reglas{margin-bottom:clamp(6px,1.6vh,22px)}
+.encabezado-reglas h1{font-size:clamp(20px,4.2vh,38px)}
+.encabezado-reglas h2{font-size:clamp(26px,5.6vh,50px);margin-top:2px}
+.reglas .ornamento{margin-top:clamp(2px,.8vh,8px)}
+.reglas .ornamento span{font-size:clamp(18px,3.2vh,30px)}
+.lista-reglas{gap:clamp(6px,1.4vh,14px)}
+.regla{min-height:0;padding:clamp(8px,1.6vh,17px) 20px}
+.numero{width:clamp(36px,5.6vh,50px);height:clamp(36px,5.6vh,50px);flex-basis:clamp(36px,5.6vh,50px);font-size:clamp(18px,2.8vh,25px)}
+.contenido-regla h3{font-size:clamp(15px,2.6vh,23px);margin-bottom:clamp(3px,.8vh,9px)}
+.contenido-regla p{font-size:clamp(12px,1.8vh,15px);line-height:1.4}
+.imagen-regla{width:clamp(56px,11vh,100px);height:clamp(56px,11vh,100px);flex-basis:clamp(56px,11vh,100px)}
+.boton-listo{height:clamp(46px,7.4vh,68px);margin-top:clamp(10px,2.4vh,25px);font-size:clamp(15px,2.3vh,19px)}
+@media(max-width:800px){
+    .reglas{padding:16px 15px 70px}
+    .regla{padding:12px}
+}
 
-/* ===== NIVEL 2 — PORTADA TIBURÓN ASTRONAUTA ===== */
-.nivel2-intro{position:relative;overflow:hidden;align-items:center;justify-content:center;background-image:linear-gradient(rgba(2,2,18,.12),rgba(2,2,18,.48)),url("assets/fondo.png");background-size:cover;background-position:center}
-.nivel2-intro::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(174,35,255,.20),transparent 35%),radial-gradient(circle at 18% 72%,rgba(0,100,255,.14),transparent 32%);pointer-events:none}
-.panel-nivel2-intro{position:relative;z-index:3;width:min(1120px,92vw);padding:20px 28px 18px;text-align:center;border:2px solid #7e35ff;border-radius:28px;background:rgba(5,5,25,.78);box-shadow:0 0 32px rgba(127,42,255,.5),inset 0 0 40px rgba(78,42,255,.10);clip-path:polygon(2% 0,98% 0,100% 7%,100% 93%,98% 100%,2% 100%,0 93%,0 7%)}
-.nivel2-cabecera{display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:8px;color:#fff}
-.nivel2-planeta{font-size:34px;color:#e052ff;text-shadow:0 0 14px #d32cff;opacity:.9}
-.nivel2-mini{font:900 25px Orbitron,sans-serif;letter-spacing:4px;color:#fff;text-shadow:0 0 15px #8b50ff;margin:0}
-.nivel2-subtitulo{font:800 11px Orbitron,sans-serif;letter-spacing:7px;color:#d9caff;margin-top:2px}
-.nivel2-contenido{display:grid;grid-template-columns:250px 1fr 190px;align-items:center;gap:14px;min-height:510px}
-.tiburon-wrap{position:relative;height:360px;display:flex;align-items:center;justify-content:center}
-.tiburon-glow{position:absolute;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(192,55,255,.45),transparent 65%);filter:blur(8px);animation:brilloTiburon 2.8s ease-in-out infinite}
-.tiburon-espacial{position:relative;z-index:2;width:min(245px,100%);height:auto;object-fit:contain;filter:drop-shadow(0 0 14px rgba(168,63,255,.8));animation:flotaTiburon 3.5s ease-in-out infinite}
-.nivel2-centro{display:flex;flex-direction:column;align-items:center}
-.nivel2-etiqueta{display:inline-block;padding:7px 42px;border:2px solid #7040ff;border-radius:25px;color:#fff;background:rgba(13,7,43,.8);font:800 15px Orbitron,sans-serif;box-shadow:0 0 14px rgba(116,53,255,.35);margin-bottom:12px}
-.nivel2-titulo{font:900 clamp(36px,4.2vw,63px) Audiowide,sans-serif;line-height:1.04;color:#fff;text-shadow:0 0 16px rgba(255,255,255,.22);margin-bottom:18px}
-.nivel2-titulo span{color:#d05cff;text-shadow:0 0 16px #a52cff,0 0 35px rgba(174,60,255,.55)}
-.nivel2-dificultad{width:min(260px,80vw);margin:0 auto 18px;padding:11px 18px;border:2px solid #7d38ff;border-radius:14px;background:rgba(14,8,42,.88);box-shadow:0 0 16px rgba(109,45,255,.25)}
-.nivel2-dificultad small{display:block;color:#e15cff;font:900 12px Orbitron,sans-serif;letter-spacing:2px;margin-bottom:8px}
-.nivel2-dificultad strong{display:block;color:#fff;font:800 12px Orbitron,sans-serif;margin-top:8px}
-.barras-dificultad{display:flex;justify-content:center;gap:7px}.barras-dificultad i{width:22px;height:22px;border:2px solid #8a35ff;border-radius:5px;background:transparent;box-shadow:0 0 8px rgba(149,48,255,.25)}.barras-dificultad i:nth-child(1),.barras-dificultad i:nth-child(2){background:linear-gradient(135deg,#ef32ff,#a22cff);box-shadow:0 0 12px rgba(220,45,255,.75)}
-.objetivo-nivel2{width:min(670px,90%);display:flex;align-items:center;gap:15px;text-align:left;padding:13px 18px;margin-bottom:18px;border:2px solid #6431e8;border-radius:12px;background:rgba(8,7,29,.82);box-shadow:0 0 16px rgba(74,42,255,.18)}
-.objetivo-icono{font-size:42px;color:#e24dff;text-shadow:0 0 14px #d12cff}.objetivo-nivel2 b{font:900 15px Orbitron,sans-serif;color:#e04dff}.objetivo-nivel2 p{margin:5px 0 0;color:#eee;font:500 14px system-ui,sans-serif;line-height:1.35}
-.boton-nivel2{min-width:320px;padding:17px 38px;border:2px solid #d759ff;border-radius:15px;background:linear-gradient(90deg,#a914ff,#5f20eb,#1e82ff);color:#fff;font:900 19px Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;box-shadow:0 0 24px rgba(154,47,255,.7),inset 0 0 18px rgba(255,255,255,.12);transition:.2s}.boton-nivel2:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 40px rgba(154,47,255,.9)}.boton-nivel2 b{margin-left:22px;font-size:25px}
-.meteoritos-lado{height:350px;position:relative}.meteoritos-lado span{position:absolute;color:#ff8c27;font-size:52px;text-shadow:0 0 10px #ff4d00,0 0 26px #ff1e00;transform:rotate(-30deg);animation:caeMeteoro 2.8s linear infinite}.meteoritos-lado span:nth-child(1){right:40px;top:20px}.meteoritos-lado span:nth-child(2){right:100px;top:100px;font-size:76px;animation-delay:.7s}.meteoritos-lado span:nth-child(3){right:25px;top:200px;font-size:42px;animation-delay:1.2s}.meteoritos-lado span:nth-child(4){right:120px;top:270px;font-size:58px;animation-delay:1.8s}
-.nivel2-decor{position:absolute;z-index:1;color:#8c4dff;filter:drop-shadow(0 0 18px #8d2cff);opacity:.75}.meteorito-decor{font-size:70px}.m1{top:18%;left:3%;animation:flotaNivel2 4s ease-in-out infinite}.m2{right:3%;bottom:11%;font-size:100px;animation:flotaNivel2 5s ease-in-out infinite reverse}.planeta-decor{font-size:100px;color:#4a5cff;opacity:.18}.p1{right:8%;top:13%}.p2{left:12%;bottom:9%;font-size:70px}
+/* =========================================================
+   PANTALLAS DE PRESENTACIÓN DE NIVEL (NIVEL 2 Y NIVEL 3)
+   Panel a pantalla completa y contenido centrado.
+   (No se redefine position: la pantalla sigue siendo fixed.)
+========================================================= */
+.nivel-intro{
+    display:flex;align-items:center;justify-content:center;
+    padding:clamp(8px,2vh,20px) clamp(8px,1.4vw,22px);
+    overflow:hidden;
+    background-image:linear-gradient(rgba(2,2,18,.12),rgba(2,2,18,.5)),url("assets/fondo.png");
+    background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+.nivel-intro::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 42%,rgba(174,35,255,.20),transparent 38%),radial-gradient(circle at 18% 72%,rgba(0,100,255,.14),transparent 32%);
+}
+.panel-nivel-intro{
+    position:relative;z-index:3;
+    width:100%;height:100%;
+    display:grid;grid-template-rows:auto minmax(0,1fr) auto;
+    justify-items:center;align-items:center;
+    padding:clamp(12px,2.4vh,26px) clamp(16px,3vw,48px) clamp(8px,1.6vh,18px);
+    text-align:center;
+    border:2px solid #7e35ff;border-radius:26px;
+    background:rgba(5,5,25,.80);
+    box-shadow:0 0 32px rgba(127,42,255,.5),inset 0 0 40px rgba(78,42,255,.10);
+    overflow:hidden;
+}
+.intro-decor{position:absolute;z-index:1;color:#8c4dff;filter:drop-shadow(0 0 18px #8d2cff);opacity:.7;pointer-events:none}
+.intro-decor.meteorito-decor{font-size:clamp(44px,9vh,90px)}
+.intro-decor.m1{top:14%;left:2%;animation:flotaNivel2 4s ease-in-out infinite}
+.intro-decor.m2{right:2%;bottom:10%;font-size:clamp(60px,12vh,120px);animation:flotaNivel2 5s ease-in-out infinite reverse}
+.intro-decor.planeta-decor{font-size:clamp(60px,12vh,120px);color:#4a5cff;opacity:.18}
+.intro-decor.p1{right:9%;top:12%}
+.intro-decor.p2{left:10%;bottom:8%;font-size:clamp(44px,8vh,80px)}
+
+.intro-cabecera{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,28px);color:#fff}
+.intro-planeta{font-size:clamp(22px,4vh,36px);color:#e052ff;text-shadow:0 0 14px #d32cff}
+.intro-num{font:900 clamp(20px,3.8vh,32px) Orbitron,sans-serif;letter-spacing:5px;color:#fff;text-shadow:0 0 15px #8b50ff}
+.intro-sub{font:800 clamp(9px,1.5vh,12px) Orbitron,sans-serif;letter-spacing:6px;color:#d9caff;margin-top:4px}
+
+.intro-contenido{
+    width:100%;min-height:0;
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) minmax(0,1fr);
+    align-items:center;gap:clamp(8px,1.6vw,26px);
+}
+.intro-visual{position:relative;display:grid;place-items:center;height:clamp(150px,42vh,430px)}
+.intro-glow{position:absolute;width:min(85%,50vh);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(192,55,255,.45),transparent 65%);filter:blur(8px);animation:brilloTiburon 2.8s ease-in-out infinite}
+.intro-sprite{position:relative;z-index:2;width:min(100%,44vh);max-height:100%;object-fit:contain;filter:drop-shadow(0 0 14px rgba(168,63,255,.8));animation:flotaTiburon 3.5s ease-in-out infinite}
+.intro-sprite.gira{width:min(78%,36vh);animation:giroMeteorito 14s linear infinite}
+
+.intro-centro{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.8vh,18px);min-width:0}
+.intro-etiqueta{display:inline-block;padding:clamp(5px,.9vh,8px) clamp(24px,3vw,42px);border:2px solid #7040ff;border-radius:25px;color:#fff;background:rgba(13,7,43,.8);font:800 clamp(11px,1.8vh,15px) Orbitron,sans-serif;letter-spacing:2px;box-shadow:0 0 14px rgba(116,53,255,.35)}
+.intro-titulo{font:900 clamp(30px,min(4.6vw,8.6vh),70px) Audiowide,Orbitron,sans-serif;line-height:1.04;color:#fff;text-shadow:0 0 16px rgba(255,255,255,.22)}
+.intro-titulo span{color:#d05cff;text-shadow:0 0 16px #a52cff,0 0 35px rgba(174,60,255,.55)}
+.intro-dificultad{width:min(280px,80%);padding:clamp(7px,1.3vh,12px) 18px;border:2px solid #7d38ff;border-radius:14px;background:rgba(14,8,42,.88);box-shadow:0 0 16px rgba(109,45,255,.25)}
+.intro-dificultad small{display:block;color:#e15cff;font:900 clamp(10px,1.6vh,12px) Orbitron,sans-serif;letter-spacing:2px;margin-bottom:clamp(4px,.9vh,8px)}
+.intro-dificultad strong{display:block;color:#fff;font:800 clamp(10px,1.6vh,12px) Orbitron,sans-serif;margin-top:clamp(4px,.9vh,8px);letter-spacing:2px}
+.barras-dificultad{display:flex;justify-content:center;gap:7px}
+.barras-dificultad i{display:block;width:clamp(16px,3vh,22px);height:clamp(16px,3vh,22px);border:2px solid #8a35ff;border-radius:5px;background:transparent;box-shadow:0 0 8px rgba(149,48,255,.25)}
+.barras-dificultad i.on{background:linear-gradient(135deg,#ef32ff,#a22cff);box-shadow:0 0 12px rgba(220,45,255,.75)}
+.intro-objetivo{width:min(680px,94%);display:flex;align-items:center;gap:15px;text-align:left;padding:clamp(8px,1.5vh,14px) 18px;border:2px solid #6431e8;border-radius:12px;background:rgba(8,7,29,.82);box-shadow:0 0 16px rgba(74,42,255,.18)}
+.intro-objetivo-icono{font-size:clamp(30px,5.4vh,44px);color:#e24dff;text-shadow:0 0 14px #d12cff;line-height:1}
+.intro-objetivo b{font:900 clamp(11px,1.8vh,15px) Orbitron,sans-serif;color:#e04dff;letter-spacing:2px}
+.intro-objetivo p{margin:5px 0 0;color:#eee;font:500 clamp(11px,1.9vh,15px) system-ui,Arial,sans-serif;line-height:1.4}
+.intro-objetivo p b.resalta{font:inherit;letter-spacing:normal;color:#f0a8ff;font-weight:700}
+.intro-boton{min-width:min(320px,80%);padding:clamp(11px,2vh,17px) 38px;border:2px solid #d759ff;border-radius:15px;background:linear-gradient(90deg,#a914ff,#5f20eb,#1e82ff);color:#fff;font:900 clamp(15px,2.4vh,19px) Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;box-shadow:0 0 24px rgba(154,47,255,.7),inset 0 0 18px rgba(255,255,255,.12);transition:.2s}
+.intro-boton:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 40px rgba(154,47,255,.9)}
+.intro-boton b{margin-left:22px;font-size:1.3em}
+.intro-volver{border:0;background:none;color:#9d91b9;font:700 clamp(9px,1.5vh,11px) Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;padding:6px 14px}
+.intro-volver:hover{color:#fff}
+
+.intro-lado{position:relative;height:clamp(150px,42vh,430px)}
+.intro-lado span{position:absolute;color:#ff8c27;font-size:clamp(34px,6.5vh,56px);text-shadow:0 0 10px #ff4d00,0 0 26px #ff1e00;transform:rotate(-30deg);animation:caeMeteoro 2.8s linear infinite}
+.intro-lado span:nth-child(1){right:15%;top:5%}
+.intro-lado span:nth-child(2){right:45%;top:28%;font-size:clamp(46px,9vh,78px);animation-delay:.7s}
+.intro-lado span:nth-child(3){right:8%;top:52%;font-size:clamp(28px,5vh,44px);animation-delay:1.2s}
+.intro-lado span:nth-child(4){right:48%;top:72%;font-size:clamp(38px,7vh,60px);animation-delay:1.8s}
+
+/* Nivel 3: ambientación de jefe final */
+.intro-final .panel-nivel-intro{border-color:#ff3ea5;box-shadow:0 0 36px rgba(255,62,165,.45),inset 0 0 40px rgba(160,30,120,.12)}
+.intro-final .intro-titulo span{color:#ff5cae;text-shadow:0 0 16px #ff2c8a,0 0 35px rgba(255,60,150,.55)}
+.intro-final .intro-etiqueta{border-color:#ff3ea5;box-shadow:0 0 14px rgba(255,62,165,.4)}
+
+@keyframes flotaNivel2{50%{transform:translateY(-18px) rotate(45deg)}}
 @keyframes flotaTiburon{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
 @keyframes brilloTiburon{0%,100%{transform:scale(.9);opacity:.55}50%{transform:scale(1.12);opacity:.9}}
 @keyframes caeMeteoro{0%{transform:translate(30px,-40px) rotate(-30deg);opacity:0}15%{opacity:1}100%{transform:translate(-45px,120px) rotate(-30deg);opacity:0}}
-@media(max-width:900px){.nivel2-contenido{grid-template-columns:1fr;min-height:0}.tiburon-wrap{height:190px}.tiburon-espacial{width:170px}.meteoritos-lado{display:none}.nivel2-titulo{font-size:34px}.panel-nivel2-intro{padding:18px 15px}.objetivo-nivel2{width:94%}.nivel2-subtitulo{letter-spacing:3px}}
+
+@media(max-width:900px){
+    .panel-nivel-intro{grid-template-rows:auto 1fr auto;overflow-y:auto}
+    .intro-contenido{grid-template-columns:1fr}
+    .intro-lado{display:none}
+    .intro-visual{height:clamp(110px,24vh,200px);overflow:hidden}
+    .intro-sprite,.intro-sprite.gira{width:auto;height:100%;max-width:60%;object-fit:contain}
+    .intro-glow{width:min(70%,24vh)}
+}
 
 /* =========================================================
-   NIVEL 2 REAL — COMBATE CONTRA EL TIBURÓN JEFE
+   NIVEL 2 — NIVEL NORMAL (ambiente rojizo + cometas)
 ========================================================= */
-.nivel2-juego{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;padding:14px 3vw 8px;background:linear-gradient(rgba(2,2,16,.15),rgba(2,2,16,.5)),url("assets/fondo.png") center/cover no-repeat;overflow:hidden}
-.hud-nivel2-juego{z-index:4;width:min(1200px,96vw);min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 20px;border:1px solid #9148ff;border-radius:15px;background:rgba(5,4,24,.88);box-shadow:0 0 22px #6d29e655}
-.hud-nivel2-juego>div:first-child{display:flex;flex-direction:column;gap:5px}.hud-nivel2-juego small{font:700 9px Orbitron,sans-serif;letter-spacing:2px;color:#a9a2ff}.hud-nivel2-juego strong{font:800 14px Orbitron,sans-serif}.hud2-dato{text-align:center;min-width:85px}.hud2-dato strong{color:#e2a2ff;font-size:16px}.escenario-nivel2{position:relative;isolation:isolate;width:min(1200px,96vw);height:min(67vh,680px);min-height:310px;overflow:hidden;border:1px solid #7041ff;border-radius:18px;background:linear-gradient(180deg,rgba(9,6,35,.3),rgba(4,4,22,.4));box-shadow:0 0 25px #6b30ff44,inset 0 0 40px #5824ff18}
-.escenario-nivel2 .estrellas-nivel{z-index:-1}.tiburon-jefe{position:absolute;z-index:2;left:50%;top:11%;transform:translateX(-50%);width:clamp(120px,17vw,215px);height:clamp(120px,17vw,215px);object-fit:contain;filter:drop-shadow(0 0 17px #b34dff);animation:flotaTiburon 2.8s ease-in-out infinite}.tiburon-jefe.golpeado{filter:brightness(2) drop-shadow(0 0 28px #ff50fc)}.boss-halo{position:absolute;top:6%;left:50%;width:240px;height:190px;transform:translateX(-50%);background:radial-gradient(ellipse,#9d35ff55,transparent 70%);pointer-events:none}.boss-barra{position:absolute;z-index:3;top:12px;left:50%;transform:translateX(-50%);width:min(340px,60%);padding:8px 12px;border:1px solid #a044ff;border-radius:9px;background:#09051dd9}.boss-barra-titulo{display:flex;justify-content:space-between;font:700 9px Orbitron,sans-serif;color:#f2dfff;margin-bottom:6px}.boss-track{height:10px;border-radius:9px;overflow:hidden;background:#26123d;border:1px solid #a13aff}.boss-track i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff2ce5,#8b3dff,#36c8ff);box-shadow:0 0 12px #ce3fff;transition:width .12s}.nave-jugador-n2{z-index:4;bottom:5%;top:auto;transform:translateX(-50%);width:65px;height:65px;object-fit:contain}.bala-nivel2{position:absolute;z-index:5;width:5px;height:22px;border-radius:5px;background:linear-gradient(#fff,#56eaff,#9c39ff);box-shadow:0 0 12px #6deaff,0 0 22px #9e35ff;transform:translateX(-50%)}.ataque-jefe{position:absolute;z-index:3;width:23px;height:32px;border-radius:50% 50% 45% 45%;background:linear-gradient(#ffb8f9,#ff2b87 55%,#8b1cff);box-shadow:0 0 12px #ff3ba8,0 0 23px #b52bff;transform:translateX(-50%)}.ataque-jefe:after{content:"";position:absolute;inset:4px 8px;background:#fff8;border-radius:50%}.controles-nivel2{z-index:4;margin-top:0}.nivel2-juego .ayuda-nivel1{margin-top:-7px}.nivel2-juego .cuenta-nivel1,.nivel2-juego .mensaje-fuego{z-index:8}.nave-jugador-n2.dañado{animation:parpadeoNave .12s linear 5}@keyframes parpadeoNave{50%{opacity:.15;filter:brightness(3)}}
-#pantallaVictoriaNivel2 .acciones-victoria{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}#pantallaVictoriaNivel2 .boton-final-juego{font-size:11px}
-@media(max-width:650px){.hud-nivel2-juego{gap:7px;padding:8px;flex-wrap:wrap;justify-content:center}.hud-nivel2-juego>div:first-child{width:100%;text-align:center}.hud-nivel2-juego strong{font-size:11px}.hud2-dato{min-width:60px}.escenario-nivel2{height:58vh;min-height:280px}.boss-barra{top:8px}.nave-jugador-n2{width:54px;height:54px}.controles-nivel2 .disparo-nivel1{min-width:130px}}
+.nivel2n .nivel1-escenario{background-image:linear-gradient(rgba(80,12,45,.34),rgba(2,5,12,.12)),url("assets/fondo.png")}
+.cometa-nivel2{
+    filter:sepia(1) saturate(5) hue-rotate(-18deg) brightness(1.15) drop-shadow(0 0 8px #ff7a1a) drop-shadow(0 0 18px #ff3d00);
+    animation-duration:1.1s;
+}
+
+/* =========================================================
+   NIVEL 3 — JEFE FINAL: TITÁN IRON (diseño base)
+========================================================= */
+.nivel3-juego{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;padding:14px 3vw 8px;background:linear-gradient(rgba(2,2,16,.15),rgba(2,2,16,.5)),url("assets/fondo.png") center/cover no-repeat;overflow:hidden}
+.hud-nivel3-juego{z-index:4;width:min(1200px,96vw);min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 20px;border:1px solid #9148ff;border-radius:15px;background:rgba(5,4,24,.88);box-shadow:0 0 22px #6d29e655}
+.hud-nivel3-juego>div:first-child{display:flex;flex-direction:column;gap:5px}.hud-nivel3-juego small{font:700 9px Orbitron,sans-serif;letter-spacing:2px;color:#a9a2ff}.hud-nivel3-juego strong{font:800 14px Orbitron,sans-serif}.hud3-dato{text-align:center;min-width:85px}.hud3-dato strong{color:#e2a2ff;font-size:16px}.escenario-nivel3{position:relative;isolation:isolate;width:min(1200px,96vw);height:min(76vh,760px);min-height:340px;overflow:hidden;border:1px solid #7041ff;border-radius:18px;background:linear-gradient(180deg,rgba(9,6,35,.3),rgba(4,4,22,.4));box-shadow:0 0 25px #6b30ff44,inset 0 0 40px #5824ff18}
+.escenario-nivel3 .estrellas-nivel{z-index:-1}.tiburon-jefe{position:absolute;z-index:2;left:50%;top:11%;transform:translateX(-50%);width:clamp(100px,13vw,170px);height:clamp(100px,13vw,170px);object-fit:contain;filter:drop-shadow(0 0 17px #b34dff);animation:flotaTiburon 2.8s ease-in-out infinite}.tiburon-jefe.golpeado{filter:brightness(2) drop-shadow(0 0 28px #ff50fc)}.boss-halo{position:absolute;top:6%;left:50%;width:240px;height:190px;transform:translateX(-50%);background:radial-gradient(ellipse,#9d35ff55,transparent 70%);pointer-events:none}.boss-barra{position:absolute;z-index:3;top:12px;left:50%;transform:translateX(-50%);width:min(340px,60%);padding:8px 12px;border:1px solid #a044ff;border-radius:9px;background:#09051dd9}.boss-barra-titulo{display:flex;justify-content:space-between;font:700 9px Orbitron,sans-serif;color:#f2dfff;margin-bottom:6px}.boss-track{height:10px;border-radius:9px;overflow:hidden;background:#26123d;border:1px solid #a13aff}.boss-track i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff2ce5,#8b3dff,#36c8ff);box-shadow:0 0 12px #ce3fff;transition:width .12s}.nave-jugador-n3{z-index:4;bottom:5%;top:auto;transform:translateX(-50%);width:65px;height:65px;object-fit:contain}.bala-nivel3{position:absolute;z-index:5;width:5px;height:22px;border-radius:5px;background:linear-gradient(#fff,#56eaff,#9c39ff);box-shadow:0 0 12px #6deaff,0 0 22px #9e35ff;transform:translateX(-50%)}.ataque-jefe{position:absolute;z-index:3;width:23px;height:32px;border-radius:50% 50% 45% 45%;background:linear-gradient(#ffb8f9,#ff2b87 55%,#8b1cff);box-shadow:0 0 12px #ff3ba8,0 0 23px #b52bff;transform:translateX(-50%)}.ataque-jefe:after{content:"";position:absolute;inset:4px 8px;background:#fff8;border-radius:50%}.controles-nivel3{z-index:4;margin-top:0}.nivel3-juego .ayuda-nivel1{margin-top:-7px}.nivel3-juego .cuenta-nivel1,.nivel3-juego .mensaje-fuego{z-index:8}.nave-jugador-n3.dañado{animation:parpadeoNave .12s linear 5}@keyframes parpadeoNave{50%{opacity:.15;filter:brightness(3)}}
+#pantallaVictoriaNivel3 .acciones-victoria{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}#pantallaVictoriaNivel3 .boton-final-juego{font-size:11px}
+@media(max-width:650px){.hud-nivel3-juego{gap:7px;padding:8px;flex-wrap:wrap;justify-content:center}.hud-nivel3-juego>div:first-child{width:100%;text-align:center}.hud-nivel3-juego strong{font-size:11px}.hud3-dato{min-width:60px}.escenario-nivel3{height:66vh;min-height:300px}.boss-barra{top:8px}.nave-jugador-n3{width:54px;height:54px}.controles-nivel3 .disparo-nivel1{min-width:130px}}
+
+/* =========================================================
+   NIVEL 3 — JEFE FINAL: TITÁN IRON
+========================================================= */
+.titan-svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 14px rgba(190,60,255,.85))}
+.titan-svg.titan-intro{width:min(100%,44vh);height:min(100%,44vh);max-height:none;animation:flotaTiburon 3.2s ease-in-out infinite}
+.titan-svg .ojo{animation:ojoTitan 1.6s ease-in-out infinite;transform-origin:100px 90px;transform-box:view-box}
+.titan-svg .nucleo{animation:ojoTitan 1.1s ease-in-out infinite;transform-origin:100px 124px;transform-box:view-box}
+.titan-svg .punta{animation:ojoTitan .9s ease-in-out infinite}
+@keyframes ojoTitan{0%,100%{opacity:.75;filter:brightness(.9)}50%{opacity:1;filter:brightness(1.6)}}
+
+.escenario-nivel3{background:linear-gradient(180deg,rgba(9,6,35,.35),rgba(4,4,22,.5))}
+.escenario-nivel3.furia{border-color:#ff3a8c;box-shadow:0 0 34px #ff2f7f66,inset 0 0 60px #ff2a7a22}
+.titan-jefe{position:absolute;z-index:2;left:50%;top:11%;transform:translateX(-50%);width:clamp(150px,21vw,250px);height:clamp(150px,21vw,250px);pointer-events:none}
+.titan-jefe .titan-svg{animation:flotaTitan 2.6s ease-in-out infinite}
+@keyframes flotaTitan{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
+.titan-jefe[data-fase="2"] .titan-svg{filter:hue-rotate(-40deg) saturate(1.3) drop-shadow(0 0 18px rgba(255,90,170,.9))}
+.titan-jefe[data-fase="3"] .titan-svg{filter:hue-rotate(-95deg) saturate(1.8) brightness(1.1) drop-shadow(0 0 26px rgba(255,50,50,.95));animation:flotaTitan 1.5s ease-in-out infinite}
+.titan-jefe.golpeado .titan-svg{filter:brightness(2.2) drop-shadow(0 0 28px #ff50fc)}
+.titan-escudo{position:absolute;inset:-6%;border-radius:50%;border:3px solid #7fe6ff;background:radial-gradient(circle,rgba(127,230,255,.08),rgba(127,230,255,.38));box-shadow:0 0 30px #5fd8ff,inset 0 0 30px #5fd8ff88;opacity:0;transform:scale(.85);transition:opacity .25s,transform .25s}
+.titan-jefe.con-escudo .titan-escudo{opacity:1;transform:scale(1);animation:pulsoEscudo .5s ease-in-out infinite alternate}
+@keyframes pulsoEscudo{to{box-shadow:0 0 50px #8ff0ff,inset 0 0 45px #8ff0ffaa}}
+.titan-jefe.explota .titan-svg{animation:explotaTitan 2.1s ease-in forwards}
+@keyframes explotaTitan{0%{filter:brightness(2) drop-shadow(0 0 30px #fff)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-10px) scale(1.05)}100%{transform:scale(1.5) rotate(12deg);opacity:0;filter:brightness(4) blur(6px)}}
+.halo-n3{width:320px;height:240px;background:radial-gradient(ellipse,#ff35a455,transparent 70%)}
+.boss-barra-n3{width:min(420px,66%)}
+.boss-barra-n3 .boss-track{position:relative;height:12px}
+.boss-track .marca{position:absolute;top:0;bottom:0;width:2px;background:#fff9;z-index:2}
+.boss-barra-n3 .boss-track i{background:linear-gradient(90deg,#ff2a6b,#ff2ce5,#8b3dff)}
+
+.plasma-n3{position:absolute;left:0;top:0;z-index:3;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle,#fff 0 25%,#ff7ad0 45%,#e01a7a 100%);box-shadow:0 0 10px #ff3ba8,0 0 22px #b52bff;will-change:transform}
+.plasma-n3.grande{width:26px;height:26px}
+.escenario-nivel3.furia .plasma-n3{background:radial-gradient(circle,#fff 0 25%,#ffd07a 45%,#ff3a1a 100%);box-shadow:0 0 10px #ff6b3b,0 0 22px #ff2b2b}
+.laser-n3{position:absolute;top:0;bottom:0;z-index:2;width:54px;transform:translateX(-50%) scaleX(.07);background:repeating-linear-gradient(180deg,#ff4f9a 0 14px,transparent 14px 28px);opacity:.75;pointer-events:none}
+.laser-n3.activo{transform:translateX(-50%) scaleX(1);background:linear-gradient(90deg,transparent,#ff6bd0 20%,#fff 50%,#ff6bd0 80%,transparent);box-shadow:0 0 30px #ff2fa8,0 0 60px #b52bff;opacity:1;animation:rayoVibra .06s linear infinite alternate}
+@keyframes rayoVibra{to{filter:brightness(1.4)}}
+.meteoro-n3{position:absolute;z-index:3;transform:translate(-50%,-50%);object-fit:contain;filter:drop-shadow(0 0 8px #ff7b2b);pointer-events:none}
+.drop-n3{position:absolute;z-index:4;width:34px;height:34px;margin-left:-17px;display:grid;place-items:center;border-radius:50%;font:900 18px Orbitron,sans-serif;color:#fff;border:2px solid #fff;animation:brilloDrop .7s ease-in-out infinite alternate}
+.drop-n3.vida{background:#d1124f;box-shadow:0 0 16px #ff3a7a}
+.drop-n3.rapido{background:#c98a00;box-shadow:0 0 16px #ffd24d}
+.drop-n3.escudo{background:#0a86b8;box-shadow:0 0 16px #5fd8ff}
+@keyframes brilloDrop{to{transform:scale(1.15);filter:brightness(1.4)}}
+.nave-jugador-n3.con-escudo{filter:drop-shadow(0 0 4px #7fe6ff) drop-shadow(0 0 14px #5fd8ff) drop-shadow(0 0 22px #5fd8ff)}
+.poderes-n3{position:absolute;z-index:6;left:12px;bottom:10px;display:flex;flex-direction:column;gap:5px;pointer-events:none}
+.poder{padding:4px 10px;border-radius:7px;font:800 10px Orbitron,sans-serif;letter-spacing:1px;background:#08051dcc;border:1px solid}
+.poder.rapido{color:#ffd24d;border-color:#ffd24d}.poder.escudo{color:#7fe6ff;border-color:#7fe6ff}
+.chispa-n3{position:absolute;z-index:6;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--c,#d98bff);box-shadow:0 0 14px var(--c,#d98bff),0 0 28px var(--c,#d98bff);animation:chispaN3 .4s ease-out forwards;pointer-events:none}
+@keyframes chispaN3{to{transform:scale(4);opacity:0}}
+.escenario-nivel3.tiembla{animation:tiembla3 .35s linear}
+@keyframes tiembla3{0%,100%{transform:translate(0)}20%{transform:translate(-5px,3px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-4px,-2px)}80%{transform:translate(3px,4px)}}
+.banner-n3{position:absolute;z-index:9;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;opacity:0;text-align:center}
+.banner-n3 strong{font:900 clamp(40px,8vw,90px) Orbitron,sans-serif;color:#fff;text-shadow:0 0 22px #ff2f9a,0 0 55px #ff2f9a}
+.banner-n3 small{font:800 clamp(12px,2vw,20px) Orbitron,sans-serif;letter-spacing:6px;color:#ffc4e6;margin-top:6px}
+.banner-n3.visible{animation:bannerN3 2.3s ease-out forwards}
+@keyframes bannerN3{0%{opacity:0;transform:scale(1.6)}12%{opacity:1;transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:scale(.96)}}
+#pantallaVictoriaNivel3 .acciones-victoria{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}#pantallaVictoriaNivel3 .boton-final-juego{font-size:11px}
+#pantallaVictoriaNivel3 .final-juego-icono{color:#ffd24d;text-shadow:0 0 28px #ffb300}
+#pantallaVictoriaNivel3 .final-juego-panel{border-color:#ffd24d99;box-shadow:0 0 70px rgba(255,190,50,.35),inset 0 0 35px rgba(255,200,60,.08)}
+@media(max-width:650px){.titan-jefe{width:130px;height:130px}.poderes-n3{bottom:6px;left:6px}}
+
+
+@media(max-width:700px){.titan-svg.titan-intro{width:auto;height:100%;max-width:60%}}
+
+/* Créditos al completar el nivel final */
+.creditos-iron-fist{margin:22px auto 18px;padding:16px 20px;max-width:680px;text-align:center;border:1px solid #6e8cff88;border-radius:14px;background:rgba(8,13,40,.72);box-shadow:0 0 22px #526dff22}
+.creditos-iron-fist h3{margin:0 0 6px;color:#a9c7ff;letter-spacing:4px;font-size:clamp(18px,2vw,25px)}
+.creditos-iron-fist p{margin:0 0 12px;color:#dce5ff}
+.creditos-iron-fist ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px}
+.creditos-iron-fist li{font-size:12px;color:#fff;line-height:1.45}
+.creditos-iron-fist span{display:block;color:#9eb5ff;font-size:11px;overflow-wrap:anywhere}

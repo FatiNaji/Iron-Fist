@@ -275,95 +275,252 @@
 </section>
 
 <!-- =====================================================
-     PANTALLA 6 — PREPARACIÓN NIVEL 2
+     PANTALLA 6 — PRESENTACIÓN NIVEL 2
 ====================================================== -->
-<section class="pantalla nivel2-intro" id="pantallaNivel2Intro">
-    <div class="nivel2-decor meteorito-decor m1">☄</div>
-    <div class="nivel2-decor meteorito-decor m2">☄</div>
-    <div class="nivel2-decor planeta-decor p1">◉</div>
-    <div class="nivel2-decor planeta-decor p2">◉</div>
+<section class="pantalla nivel-intro" id="pantallaNivel2Intro">
+    <div class="intro-decor meteorito-decor m1" aria-hidden="true">☄</div>
+    <div class="intro-decor meteorito-decor m2" aria-hidden="true">☄</div>
+    <div class="intro-decor planeta-decor p1" aria-hidden="true">◉</div>
+    <div class="intro-decor planeta-decor p2" aria-hidden="true">◉</div>
 
-    <div class="panel-nivel2-intro">
-        <div class="nivel2-cabecera">
-            <div class="nivel2-planeta">◉</div>
+    <div class="panel-nivel-intro">
+        <header class="intro-cabecera">
+            <div class="intro-planeta">◉</div>
             <div>
-                <div class="nivel2-mini">NIVEL 2</div>
-                <div class="nivel2-subtitulo">LLUVIA DE METEORITOS</div>
+                <div class="intro-num">NIVEL 2</div>
+                <div class="intro-sub">LA TORMENTA SE INTENSIFICA</div>
             </div>
-            <div class="nivel2-planeta">◉</div>
-        </div>
+            <div class="intro-planeta">◉</div>
+        </header>
 
-        <div class="nivel2-contenido">
-            <div class="tiburon-wrap">
-                <div class="tiburon-glow"></div>
-                <img class="tiburon-espacial" src="assets/tiburon_espacial.png" alt="Tiburón astronauta">
+        <div class="intro-contenido">
+            <div class="intro-visual">
+                <div class="intro-glow"></div>
+                <img class="intro-sprite gira" src="assets/meteorito_nivel1.png" alt="Meteorito">
             </div>
 
-            <div class="nivel2-centro">
-                <div class="nivel2-etiqueta">NIVEL 2</div>
-                <div class="nivel2-titulo">¿LISTO PARA<br><span>SALVAR EL MUNDO?</span></div>
+            <div class="intro-centro">
+                <div class="intro-etiqueta">CAPÍTULO II</div>
+                <div class="intro-titulo">LLUVIA DE<br><span>METEORITOS</span></div>
 
-                <div class="nivel2-dificultad">
+                <div class="intro-dificultad">
                     <small>DIFICULTAD</small>
-                    <div class="barras-dificultad"><i></i><i></i><i></i><i></i><i></i></div>
+                    <div class="barras-dificultad"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
                     <strong>MEDIA</strong>
                 </div>
 
-                <div class="objetivo-nivel2">
-                    <div class="objetivo-icono">◎</div>
-                    <div><b>OBJETIVO</b><p>Derrota al tiburón espacial, esquiva sus ataques y reduce su barra de vida a cero antes de que termine el tiempo.</p></div>
+                <div class="intro-objetivo">
+                    <div class="intro-objetivo-icono">◎</div>
+                    <div><b>OBJETIVO</b><p>Destruye <b class="resalta">40 puntos</b> antes de que acabe el tiempo. Los meteoritos caen más rápido y aparecen <b class="resalta">cometas</b> veloces que valen <b class="resalta">doble</b>. ¡No dejes pasar ninguno!</p></div>
                 </div>
 
-                <button id="jugarNivel2" class="boton-nivel2">JUGAR <b>▶</b></button>
+                <button id="jugarNivel2" class="intro-boton" type="button">JUGAR <b>▶</b></button>
             </div>
 
-            <div class="meteoritos-lado" aria-hidden="true">
+            <div class="intro-lado" aria-hidden="true">
                 <span>☄</span><span>☄</span><span>☄</span><span>☄</span>
             </div>
         </div>
 
-        <button id="volverVictoriaDesdeNivel2" class="volver-nivel2">← VOLVER</button>
+        <button id="volverVictoriaDesdeNivel2" class="intro-volver" type="button">← VOLVER</button>
     </div>
 </section>
 
 <!-- =====================================================
-     PANTALLA 7 — GAMEPLAY NIVEL 2: JEFE TIBURÓN
+     PANTALLA 7 — GAMEPLAY NIVEL 2 (NIVEL NORMAL)
 ====================================================== -->
-<section class="pantalla nivel2-juego" id="pantallaNivel2">
-  <header class="hud-nivel2-juego">
-    <div><small>NIVEL 02</small><strong>JEFE: TIBURÓN ESPACIAL</strong></div>
-    <div class="hud2-dato"><small>TIEMPO</small><strong><span id="nivel2Tiempo">60</span>s</strong></div>
-    <div class="hud2-dato"><small>PUNTOS</small><strong><span id="nivel2Puntos">0</span> / 34</strong></div>
-    <div class="hud2-dato"><small>VIDAS</small><strong id="nivel2Vidas">♥ ♥ ♥</strong></div>
-    <button id="pausaNivel2" class="boton-pausa" type="button">❚❚ PAUSA</button>
-  </header>
-  <div class="escenario-nivel2" id="escenarioNivel2">
-    <div class="estrellas-nivel"></div>
-    <div class="boss-halo"></div>
-    <img id="tiburonJefe" class="tiburon-jefe" src="assets/tiburon_espacial.png" alt="Tiburón jefe">
-    <div class="boss-barra"><div class="boss-barra-titulo"><span>ENERGÍA DEL JEFE</span><strong id="bossPorcentaje">100%</strong></div><div class="boss-track"><i id="bossVida"></i></div></div>
-    <div id="ataquesJefe"></div><div id="disparosNivel2"></div>
-    <img id="naveNivel2" class="nave-nivel1 nave-jugador-n2" src="assets/nave_nivel1.png" alt="Nave del jugador">
-    <div id="cuentaNivel2" class="cuenta-nivel1">3</div>
-    <div id="mensajeFuegoNivel2" class="mensaje-fuego">¡FUEGO!</div>
-  </div>
-  <div class="controles-nivel1 controles-nivel2">
-    <button id="moverIzqNivel2" class="control-nivel1" aria-label="Mover a la izquierda">◀</button>
-    <button id="dispararNivel2" class="disparo-nivel1">⚡ DISPARAR</button>
-    <button id="moverDerNivel2" class="control-nivel1" aria-label="Mover a la derecha">▶</button>
-  </div>
-  <div class="ayuda-nivel1">← → MOVER &nbsp; | &nbsp; ESPACIO DISPARAR</div>
-  <div id="overlayPausaNivel2" class="overlay-pausa-nivel1"><div class="panel-pausa-nivel1"><div class="icono-pausa">Ⅱ</div><h2>JUEGO EN PAUSA</h2><p>El combate contra el tiburón está detenido.</p><button id="continuarNivel2" type="button">▶ CONTINUAR</button></div></div>
+<section class="pantalla nivel1 nivel2n" id="pantallaNivel2">
+    <div class="nivel1-hud">
+        <div class="hud-item"><span>NIVEL</span><strong>02</strong></div>
+        <div class="hud-item"><span>PUNTOS</span><strong><b id="nivel2Puntos">0</b> / 40</strong></div>
+        <div class="hud-item"><span>VIDAS</span><strong id="nivel2Vidas">♥ ♥ ♥</strong></div>
+        <div class="hud-item"><span>TIEMPO</span><strong><b id="nivel2Tiempo">60</b>s</strong></div>
+        <button id="pausaNivel2" class="boton-pausa" type="button">❚❚ PAUSA</button>
+    </div>
+
+    <div class="nivel1-escenario" id="nivel2Escenario">
+        <div class="estrellas-nivel"></div>
+        <div id="meteoritosNivel2"></div>
+        <div id="disparosNivel2"></div>
+        <img id="naveNivel2" class="nave-nivel1" src="assets/nave_nivel1.png" alt="Nave">
+        <div id="mensajeFuegoNivel2" class="mensaje-fuego">¡FUEGO!</div>
+        <div id="cuentaNivel2" class="cuenta-nivel1">3</div>
+    </div>
+
+    <div id="overlayPausaNivel2" class="overlay-pausa-nivel1">
+        <div class="panel-pausa-nivel1">
+            <div class="icono-pausa">Ⅱ</div>
+            <h2>JUEGO EN PAUSA</h2>
+            <p>La misión está detenida temporalmente.</p>
+            <button id="continuarNivel2" type="button">▶ CONTINUAR</button>
+        </div>
+    </div>
+
+    <div class="controles-nivel1">
+        <button id="moverIzqNivel2" class="control-nivel1" aria-label="Mover a la izquierda">◀</button>
+        <button id="dispararNivel2" class="disparo-nivel1">🔫 DISPARAR</button>
+        <button id="moverDerNivel2" class="control-nivel1" aria-label="Mover a la derecha">▶</button>
+    </div>
+    <div class="ayuda-nivel1">← → MOVER &nbsp;&nbsp; | &nbsp;&nbsp; ESPACIO DISPARAR</div>
 </section>
 
+<!-- VICTORIA / GAME OVER NIVEL 2 -->
 <section class="pantalla final-juego" id="pantallaVictoriaNivel2">
-  <div class="final-juego-panel victoria-panel"><div class="final-juego-icono">✦</div><div class="final-juego-tag">JEFE DERROTADO</div><h1>¡NIVEL 2 SUPERADO!</h1><h2>EL TIBURÓN HA CAÍDO</h2><p>Has sobrevivido al combate espacial.</p><div class="resultado-final">PUNTUACIÓN <strong id="puntosVictoriaNivel2">34</strong> / 34</div><div class="acciones-victoria"><button id="reintentarNivel2" class="boton-final-juego secundario">↻ VOLVER A JUGAR</button><button id="volverPortadaNivel2" class="boton-final-juego siguiente">VOLVER A PORTADA »</button></div></div>
+    <div class="final-juego-panel victoria-panel">
+        <div class="final-juego-icono">✦</div>
+        <div class="final-juego-tag">NIVEL SUPERADO</div>
+        <h1>¡NIVEL 2 SUPERADO!</h1>
+        <h2>LA TORMENTA HA PASADO</h2>
+        <p>Pero algo enorme se acerca desde el espacio profundo... prepárate para el jefe final.</p>
+        <div class="resultado-final">PUNTUACIÓN <strong id="puntosVictoriaNivel2">40</strong> / 40</div>
+        <div class="acciones-victoria">
+            <button id="reintentarNivel2" class="boton-final-juego secundario">↻ VOLVER A JUGAR</button>
+            <button id="siguienteNivel2" class="boton-final-juego siguiente">SIGUIENTE NIVEL <b>»</b></button>
+        </div>
+    </div>
 </section>
 
-<section class="pantalla final-juego" id="pantallaGameOverNivel2"><div class="final-juego-panel gameover-panel"><div class="final-juego-icono">☠</div><div class="final-juego-tag">SISTEMA CRÍTICO</div><h1>GAME OVER</h1><h2>EL TIBURÓN TE HA VENCIDO</h2><p>Recarga tu nave e inténtalo de nuevo.</p><div class="resultado-final">PUNTUACIÓN <strong id="puntosGameOverNivel2">0</strong> / 34</div><button id="reintentarDerrotaNivel2" class="boton-final-juego">REINTENTAR »</button></div></section>
+<section class="pantalla final-juego" id="pantallaGameOverNivel2">
+    <div class="final-juego-panel gameover-panel">
+        <div class="final-juego-icono">☠</div>
+        <div class="final-juego-tag">SISTEMA CRÍTICO</div>
+        <h1>GAME OVER</h1>
+        <h2>LA LLUVIA DE METEORITOS GANÓ</h2>
+        <p>No conseguiste detener suficientes meteoritos a tiempo.</p>
+        <div class="resultado-final">PUNTUACIÓN <strong id="puntosGameOverNivel2">0</strong> / 40</div>
+        <button id="reintentarDerrotaNivel2" class="boton-final-juego">REINTENTAR »</button>
+    </div>
+</section>
+
 
 <!-- =====================================================
-     PANTALLA 7 — GAME OVER
+     PANTALLA 8 — PRESENTACIÓN NIVEL 3 (JEFE FINAL: TITÁN IRON)
+====================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a3290"/><stop offset=".55" stop-color="#241552"/><stop offset="1" stop-color="#0d0722"/></linearGradient>
+    <linearGradient id="gWing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b1a5e"/><stop offset="1" stop-color="#0a0520"/></linearGradient>
+    <radialGradient id="gEye" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".28" stop-color="#ff8be0"/><stop offset=".65" stop-color="#e8145a"/><stop offset="1" stop-color="#4a0018"/></radialGradient>
+    <symbol id="symTitan" viewBox="0 0 200 200">
+      <g id="alaTitan">
+        <path d="M96 66 L8 26 L20 76 L0 112 L40 112 L28 156 L88 124Z" fill="url(#gWing)" stroke="#c75bff" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M80 80 L30 56 M76 96 L22 100 M72 110 L38 138" stroke="#8a46ff" stroke-width="2" opacity=".8"/>
+        <rect x="46" y="122" width="15" height="48" rx="4" fill="#1a0f3d" stroke="#c75bff" stroke-width="2"/>
+        <circle class="punta" cx="53.5" cy="174" r="6" fill="#ff4fd8"/>
+      </g>
+      <use href="#alaTitan" transform="translate(200 0) scale(-1 1)"/>
+      <path d="M80 42 L90 4 L99 40Z M101 40 L110 4 L120 42Z M92 36 L100 -4 L108 36Z" fill="#1a0f3d" stroke="#c75bff" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M58 52 L100 32 L142 52 L156 98 L130 142 L100 154 L70 142 L44 98Z" fill="url(#gMetal)" stroke="#d17bff" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M66 60 L100 44 L134 60 M58 98 L74 128 M142 98 L126 128" fill="none" stroke="#7b4dff" stroke-width="2.5" opacity=".85"/>
+      <circle cx="100" cy="90" r="30" fill="#07020f" stroke="#ff3fa6" stroke-width="3"/>
+      <circle class="ojo" cx="100" cy="90" r="22" fill="url(#gEye)"/>
+      <rect x="97" y="72" width="6" height="36" rx="3" fill="#12020a" opacity=".85"/>
+      <path d="M72 138 L80 150 L89 139 L100 153 L111 139 L120 150 L128 138Z" fill="#efe5ff" stroke="#6e3bd0" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle class="nucleo" cx="100" cy="124" r="7" fill="#36c8ff"/>
+    </symbol>
+  </defs>
+</svg>
+
+<section class="pantalla nivel-intro intro-final" id="pantallaNivel3Intro">
+    <div class="intro-decor meteorito-decor m1" aria-hidden="true">☄</div>
+    <div class="intro-decor meteorito-decor m2" aria-hidden="true">☄</div>
+    <div class="intro-decor planeta-decor p1" aria-hidden="true">◉</div>
+    <div class="intro-decor planeta-decor p2" aria-hidden="true">◉</div>
+
+    <div class="panel-nivel-intro">
+        <header class="intro-cabecera">
+            <div class="intro-planeta">◉</div>
+            <div>
+                <div class="intro-num">NIVEL 3</div>
+                <div class="intro-sub">JEFE FINAL</div>
+            </div>
+            <div class="intro-planeta">◉</div>
+        </header>
+
+        <div class="intro-contenido">
+            <div class="intro-visual">
+                <div class="intro-glow"></div>
+                <svg class="intro-sprite titan-svg titan-intro" viewBox="0 0 200 200" role="img" aria-label="Titán Iron, el jefe final"><use href="#symTitan"/></svg>
+            </div>
+
+            <div class="intro-centro">
+                <div class="intro-etiqueta">CAPÍTULO FINAL</div>
+                <div class="intro-titulo">TITÁN<br><span>IRON</span></div>
+
+                <div class="intro-dificultad">
+                    <small>DIFICULTAD</small>
+                    <div class="barras-dificultad"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+                    <strong>EXTREMA</strong>
+                </div>
+
+                <div class="intro-objetivo">
+                    <div class="intro-objetivo-icono">◎</div>
+                    <div><b>OBJETIVO</b><p>Destruye al <b class="resalta">Titán Iron</b> antes de que se acabe el tiempo. Tiene <b class="resalta">3 fases</b> y cada una es más letal: esquiva sus rayos, derriba los meteoritos y recoge los potenciadores que caen.</p></div>
+                </div>
+
+                <button id="jugarNivel3" class="intro-boton" type="button">LUCHAR <b>▶</b></button>
+            </div>
+
+            <div class="intro-lado" aria-hidden="true">
+                <span>☄</span><span>☄</span><span>☄</span><span>☄</span>
+            </div>
+        </div>
+
+        <button id="volverVictoriaDesdeNivel3" class="intro-volver" type="button">← VOLVER</button>
+    </div>
+</section>
+
+<!-- =====================================================
+     PANTALLA 9 — GAMEPLAY NIVEL 3: TITÁN IRON
+====================================================== -->
+<section class="pantalla nivel3-juego" id="pantallaNivel3">
+  <header class="hud-nivel3-juego">
+    <div><small>NIVEL 03</small><strong>JEFE FINAL: TITÁN IRON</strong></div>
+    <div class="hud3-dato"><small>FASE</small><strong><span id="nivel3Fase">1</span> / 3</strong></div>
+    <div class="hud3-dato"><small>TIEMPO</small><strong><span id="nivel3Tiempo">100</span>s</strong></div>
+    <div class="hud3-dato"><small>PUNTOS</small><strong><span id="nivel3Puntos">0</span></strong></div>
+    <div class="hud3-dato"><small>VIDAS</small><strong id="nivel3Vidas">♥ ♥ ♥ ♥</strong></div>
+    <button id="pausaNivel3" class="boton-pausa" type="button">❚❚ PAUSA</button>
+  </header>
+  <div class="escenario-nivel3" id="escenarioNivel3">
+    <div class="estrellas-nivel"></div>
+    <div class="boss-halo halo-n3" id="haloN3"></div>
+    <div id="jefeTitan" class="titan-jefe" data-fase="1">
+      <svg class="titan-svg" viewBox="0 0 200 200"><use href="#symTitan"/></svg>
+      <div class="titan-escudo"></div>
+    </div>
+    <div class="boss-barra boss-barra-n3"><div class="boss-barra-titulo"><span>TITÁN IRON</span><strong id="bossPorcentajeN3">100%</strong></div><div class="boss-track"><i id="bossVidaN3"></i><b class="marca" style="left:33.3%"></b><b class="marca" style="left:66.6%"></b></div></div>
+    <div id="lasersN3"></div><div id="meteorosN3"></div><div id="dropsN3"></div><div id="ataquesN3"></div><div id="disparosN3"></div>
+    <img id="naveNivel3" class="nave-nivel1 nave-jugador-n3" src="assets/nave_nivel1.png" alt="Nave del jugador">
+    <div id="poderesN3" class="poderes-n3"></div>
+    <div id="bannerN3" class="banner-n3"></div>
+    <div id="cuentaNivel3" class="cuenta-nivel1">3</div>
+    <div id="mensajeFuegoNivel3" class="mensaje-fuego">¡FUEGO!</div>
+  </div>
+  <div class="controles-nivel1 controles-nivel3">
+    <button id="moverIzqNivel3" class="control-nivel1" aria-label="Mover a la izquierda">◀</button>
+    <button id="dispararNivel3" class="disparo-nivel1">⚡ DISPARAR</button>
+    <button id="moverDerNivel3" class="control-nivel1" aria-label="Mover a la derecha">▶</button>
+  </div>
+  <div class="ayuda-nivel1">← → MOVER &nbsp; | &nbsp; ESPACIO DISPARAR (MANTÉN PRESIONADO)</div>
+  <div id="overlayPausaNivel3" class="overlay-pausa-nivel1"><div class="panel-pausa-nivel1"><div class="icono-pausa">Ⅱ</div><h2>JUEGO EN PAUSA</h2><p>La batalla final está detenida.</p><button id="continuarNivel3" type="button">▶ CONTINUAR</button></div></div>
+  <audio id="musicaNivel3" preload="auto" loop src="assets/musica_nivel1.mp3"></audio>
+</section>
+
+<section class="pantalla final-juego" id="pantallaVictoriaNivel3">
+  <div class="final-juego-panel victoria-panel"><div class="final-juego-icono">♛</div><div class="final-juego-tag">AMENAZA ELIMINADA</div><h1>¡VICTORIA TOTAL!</h1><h2>EL TITÁN IRON HA CAÍDO</h2><p>Has destruido al jefe final y salvado la Tierra. El universo entero te debe una. Eres el verdadero IRON FIST.</p><div class="resultado-final">PUNTUACIÓN <strong id="puntosVictoriaNivel3">0</strong> · VIDAS RESTANTES <strong id="vidasVictoriaNivel3">0</strong></div><div class="creditos-iron-fist"><h3>CRÉDITOS</h3><p>Creadores de IRON FIST</p><ul>
+<li>John Carlos Huachuhuillca Quispe <span>73660489@certus.edu.pe</span></li>
+<li>Gary Irarica Vasquez <span>70851660@certus.edu.pe</span></li>
+<li>Luis Angel Hancco Poco <span>78321864@certus.edu.pe</span></li>
+<li>Oscar Gabriel Jimenez Vences <span>61235647@certus.edu.pe</span></li>
+<li>Fatima Gutierrez Machado <span>70515673@certus.edu.pe</span></li>
+</ul></div><div class="acciones-victoria"><button id="reintentarNivel3" class="boton-final-juego secundario">↻ VOLVER A JUGAR</button><button id="volverInicioFinal" class="boton-final-juego siguiente">VOLVER AL INICIO »</button></div></div>
+</section>
+
+<section class="pantalla final-juego" id="pantallaGameOverNivel3"><div class="final-juego-panel gameover-panel"><div class="final-juego-icono">☠</div><div class="final-juego-tag">SISTEMA CRÍTICO</div><h1>GAME OVER</h1><h2 id="textoDerrotaNivel3">EL TITÁN IRON TE HA VENCIDO</h2><p>Aprende sus patrones: los rayos avisan antes de disparar. ¡Recarga tu nave e inténtalo de nuevo!</p><div class="resultado-final">ENERGÍA DEL JEFE <strong id="jefeRestanteNivel3">100%</strong></div><button id="reintentarDerrotaNivel3" class="boton-final-juego">REINTENTAR »</button></div></section>
+
+<!-- =====================================================
+     GAME OVER — NIVEL 1
 ====================================================== -->
 <section class="pantalla final-juego" id="pantallaGameOver">
     <div class="final-juego-panel gameover-panel">
