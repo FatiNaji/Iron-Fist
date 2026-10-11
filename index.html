@@ -6,7 +6,7 @@
 <title>IRON FIST</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Michroma&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@400;500;600;700&family=Michroma&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
 </head>
 
@@ -159,6 +159,18 @@
                         <source src="assets/galaxy_capitulo.mp4" type="video/mp4">
                         Tu navegador no puede reproducir este video.
                     </video>
+
+                    <div class="narracion oculta" id="narracionBarra">
+                        <button id="btnNarracion" class="narracion-boton" type="button"
+                                aria-label="Pausar narración" title="Pausar / continuar la narración">❚❚</button>
+                        <div class="narracion-cuerpo">
+                            <span class="narracion-etiqueta">◉ NARRACIÓN</span>
+                            <p id="narracionTexto" aria-live="polite"></p>
+                            <div class="narracion-progreso"><i id="narracionProgreso"></i></div>
+                        </div>
+                        <button id="btnOmitirNarracion" class="narracion-omitir" type="button"
+                                title="Omitir la narración">OMITIR »</button>
+                    </div>
                 </div>
             </div>
 
@@ -198,13 +210,6 @@
                     <b>»</b>
                 </button>
 
-                <button class="boton-play" id="btnPlayCapitulo" type="button" aria-label="Escuchar misión" title="Escuchar misión">
-                    ▶
-                </button>
-
-                <audio id="audioMision" preload="auto">
-                    <source src="assets/voz_mision.mp3" type="audio/mpeg">
-                </audio>
             </div>
 
         </div>
@@ -533,6 +538,32 @@
         <button id="volverNivelGameOver" class="boton-final-juego">REINTENTAR »</button>
     </div>
 </section>
+
+<!-- =====================================================
+     AJUSTES: VOLUMEN Y BRILLO (visible en todas las pantallas)
+====================================================== -->
+<audio id="musicaMenu" preload="auto" loop src="assets/soundtrack_menu.mp3"></audio>
+
+<div id="ajustesJuego" class="ajustes-juego">
+    <div id="panelAjustes" class="ajustes-panel" role="dialog" aria-label="Ajustes de volumen y brillo">
+        <h3>AJUSTES</h3>
+
+        <label class="ajuste-fila" for="rangoVolumen">
+            <span>🔊 VOLUMEN</span><b id="valorVolumen">100%</b>
+        </label>
+        <input id="rangoVolumen" type="range" min="0" max="100" step="5" value="100">
+
+        <label class="ajuste-fila" for="rangoBrillo">
+            <span>☀ BRILLO</span><b id="valorBrillo">100%</b>
+        </label>
+        <input id="rangoBrillo" type="range" min="50" max="150" step="5" value="100">
+
+        <button id="btnRestablecerAjustes" class="ajustes-reset" type="button">RESTABLECER</button>
+    </div>
+
+    <button id="btnAjustes" class="ajustes-boton" type="button"
+            aria-label="Ajustes de volumen y brillo" aria-expanded="false" title="Volumen y brillo">⚙</button>
+</div>
 
 <script src="JavaScript.js"></script>
 </body>

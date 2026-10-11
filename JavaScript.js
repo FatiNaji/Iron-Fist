@@ -2,19 +2,392 @@ const $ = id => document.getElementById(id);
 const teclas = {};
 
 /* ---------------------------------------------------------
+   AJUSTES: VOLUMEN Y BRILLO
+   - volumen: multiplicador global (0 a 1) sobre todos los sonidos
+   - brillo:  1 = normal, 0.5 = más oscuro, 1.5 = más claro
+--------------------------------------------------------- */
+const ajustes = { volumen: 1, brillo: 1 };
+const VOLUMEN_BASE = { musicaNivel1: 0.28, musicaNivel3: 0.30, audioMision: 1, musicaMenu: 0.35 };
+
+function volumenFinal(base){
+    return Math.max(0, Math.min(1, base * ajustes.volumen));
+}
+
+function cargarAjustes(){
+    try{
+        const g = JSON.parse(localStorage.getItem("ironFistAjustes") || "{}");
+        if(typeof g.volumen === "number") ajustes.volumen = Math.max(0, Math.min(1, g.volumen));
+        if(typeof g.brillo === "number")  ajustes.brillo  = Math.max(0.5, Math.min(1.5, g.brillo));
+    }catch(e){}
+}
+
+function guardarAjustes(){
+    try{ localStorage.setItem("ironFistAjustes", JSON.stringify(ajustes)); }catch(e){}
+}
+
+/* Aplica los ajustes también a lo que ya está sonando */
+function aplicarAjustes(){
+    Object.keys(VOLUMEN_BASE).forEach(id => {
+        const a = document.getElementById(id);
+        if(a) a.volume = id === "musicaMenu" ? volumenMenu() : volumenFinal(VOLUMEN_BASE[id]);
+    });
+    document.documentElement.style.setProperty("--brillo", ajustes.brillo);
+    document.documentElement.classList.toggle("con-brillo", Math.abs(ajustes.brillo - 1) > 0.005);
+}
+
+function iniciarAjustes(){
+    const cont = $("ajustesJuego"), btn = $("btnAjustes"), panel = $("panelAjustes");
+    const rVol = $("rangoVolumen"), rBri = $("rangoBrillo");
+    const tVol = $("valorVolumen"), tBri = $("valorBrillo");
+    if(!cont || !btn || !panel || !rVol || !rBri) return;
+
+    cargarAjustes();
+    const pintar = () => {
+        rVol.value = Math.round(ajustes.volumen * 100);
+        rBri.value = Math.round(ajustes.brillo * 100);
+        tVol.textContent = rVol.value + "%";
+        tBri.textContent = rBri.value + "%";
+    };
+    pintar();
+    aplicarAjustes();
+
+    btn.addEventListener("click", () => {
+        const abierto = panel.classList.toggle("abierto");
+        btn.setAttribute("aria-expanded", abierto);
+        btn.blur();   // para que ESPACIO siga disparando y no active este botón
+    });
+
+    rVol.addEventListener("input", () => {
+        ajustes.volumen = rVol.value / 100;
+        tVol.textContent = rVol.value + "%";
+        aplicarAjustes(); guardarAjustes();
+    });
+    rBri.addEventListener("input", () => {
+        ajustes.brillo = rBri.value / 100;
+        tBri.textContent = rBri.value + "%";
+        aplicarAjustes(); guardarAjustes();
+    });
+    // Al soltar el control con el mouse/dedo, devolver el foco al juego (las flechas mueven la nave)
+    [rVol, rBri].forEach(r => r.addEventListener("pointerup", () => r.blur()));
+
+    $("btnRestablecerAjustes")?.addEventListener("click", e => {
+        ajustes.volumen = 1; ajustes.brillo = 1;
+        pintar(); aplicarAjustes(); guardarAjustes();
+        e.currentTarget.blur();
+    });
+
+    // Tocar fuera del panel lo cierra
+    document.addEventListener("pointerdown", e => {
+        if(!cont.contains(e.target)) panel.classList.remove("abierto");
+    });
+}
+
+/* ---------------------------------------------------------
+   SOUNDTRACK DE MENÚS
+   Suena en inicio, reglas, capítulo, presentaciones de nivel,
+   victorias y game over. NO suena durante los niveles de juego
+   (ahí ya hay su propia música).
+--------------------------------------------------------- */
+const PANTALLAS_JUEGO = ["pantallaNivel1", "pantallaNivel2", "pantallaNivel3"];
+const PANTALLAS_FINAL = ["pantallaVictoria", "pantallaGameOver", "pantallaVictoriaNivel2",
+                         "pantallaGameOverNivel2", "pantallaVictoriaNivel3", "pantallaGameOverNivel3"];
+let menuAudioListo = false;   // el navegador exige una interacción antes de reproducir audio
+let menuQuiere = false;       // true = debe estar sonando
+let menuTimer = null, menuFade = null;
+
+/* Baja el soundtrack mientras suena la voz de la misión */
+function volumenMenu(){
+    const voz = document.getElementById("audioMision");
+    const duck = (voz && !voz.paused) || narradorHablando() ? 0.2 : 1;
+    return volumenFinal(VOLUMEN_BASE.musicaMenu * duck);
+}
+
+function fundirMenu(entrando, ms){
+    const m = $("musicaMenu");
+    if(!m) return;
+    clearInterval(menuFade);
+    const pasos = Math.max(1, Math.round(ms / 50));
+    const desde = m.volume;
+    let i = 0;
+    if(entrando){ m.volume = 0; m.play().catch(() => {}); }
+    menuFade = setInterval(() => {
+        i++;
+        const f = i / pasos;
+        m.volume = Math.max(0, Math.min(1, entrando ? volumenMenu() * f : desde * (1 - f)));
+        if(i >= pasos){
+            clearInterval(menuFade);
+            if(entrando) m.volume = volumenMenu(); else m.pause();
+        }
+    }, 50);
+}
+
+function actualizarMusicaMenu(){
+    const m = $("musicaMenu");
+    if(!m || !menuAudioListo) return;
+    const id = document.querySelector(".pantalla.activa")?.id;
+
+    if(PANTALLAS_JUEGO.includes(id)){
+        clearTimeout(menuTimer);
+        if(menuQuiere){ menuQuiere = false; fundirMenu(false, 400); }
+        return;
+    }
+    if(menuQuiere && !m.paused) return;   // ya está sonando
+    clearTimeout(menuTimer);
+    menuQuiere = true;
+    // En victoria/game over se espera a que termine el jingle de esa pantalla
+    menuTimer = setTimeout(() => fundirMenu(true, 1200), PANTALLAS_FINAL.includes(id) ? 3500 : 0);
+}
+
+function iniciarMusicaMenu(){
+    const desbloquear = () => { menuAudioListo = true; actualizarMusicaMenu(); };
+    ["click", "keydown", "pointerup", "touchend"].forEach(ev =>
+        document.addEventListener(ev, desbloquear, {passive: true}));
+    const voz = $("audioMision");
+    ["play", "pause", "ended"].forEach(ev => voz?.addEventListener(ev, aplicarAjustes));
+    aplicarAjustes();
+}
+
+/* ---------------------------------------------------------
+   NARRACIÓN DE LA HISTORIA (Capítulo I) — unos 2 a 3 minutos
+   Se reproduce sola al abrir la pantalla del capítulo.
+   Orden de preferencia:
+     1) assets/narracion_historia.mp3 (si existe, se usa esa grabación)
+     2) la voz en español del navegador (SpeechSynthesis)
+     3) solo subtítulos, si no hay ninguna voz disponible
+   El texto completo también está en assets/narracion_historia.txt
+--------------------------------------------------------- */
+const NARRACION_ARCHIVO = "assets/narracion_historia.mp3";
+const HISTORIA_TEXTO = `La Tierra duerme bajo un cielo en calma. Las ciudades brillan, los océanos respiran, y nadie imagina que, muy lejos de aquí, en la oscuridad del espacio profundo, algo acaba de despertar.
+
+Todo empezó hace tres meses. Los observatorios orbitales detectaron una anomalía más allá de la órbita de Marte: un inmenso cinturón de rocas, dormido durante miles de millones de años, comenzó a moverse. No fue un accidente. Algo lo estaba empujando, y su rumbo era uno solo: nuestro planeta.
+
+Los científicos lo llamaron la Lluvia. Primero cayeron fragmentos pequeños, que ardieron en la atmósfera como estrellas fugaces. Pero cada noche llegaban más, más grandes y más cerca. Las ciudades costeras fueron evacuadas. Los misiles resultaron demasiado lentos. Las defensas de siempre no estaban hechas para algo así.
+
+Entonces nació un proyecto secreto: Iron Fist, el Puño de Hierro. No es un ejército, ni un cañón gigante en órbita. Es una nave pequeña y veloz, con un solo piloto y cañones de plasma capaces de pulverizar cualquier roca. Su verdadera arma no es el metal. Son los reflejos de quien la maneja.
+
+Se evaluó a miles de aspirantes, y casi todos fueron descartados. Cuando terminó la última prueba, un solo nombre quedó en lo más alto de la lista: el tuyo.
+
+Lo que viene no será fácil. En la primera oleada deberás destruir treinta meteoritos antes de que se acabe el tiempo. Si demasiados cruzan la línea de defensa, el escudo caerá. Después, la tormenta se intensificará: aparecerán cometas ardientes y veloces, y cada uno que derribes valdrá el doble.
+
+Pero los astrónomos descubrieron algo peor. Entre las rocas viaja una máquina de guerra antigua, construida por una civilización desaparecida para borrar mundos enteros. Le dieron un nombre: Titán Iron. Dicen que aún no ha mostrado todo su poder, que tiene tres fases, y que cada una es más letal que la anterior.
+
+No habrá refuerzos. Cada meteorito que detengas será un hogar que sigue en pie, una familia que verá amanecer, un mañana que todavía es posible.
+
+Respira hondo. Afirma las manos sobre los controles. Enciende los motores. El futuro de la Tierra descansa ahora en tus manos. Piloto, la misión comienza. ¡Que el Puño de Hierro caiga sobre el espacio!`;
+
+/* Parte el texto en frases cortas (mejor para subtítulos y para que el navegador no corte la voz) */
+function trocearHistoria(texto){
+    const trozos = [];
+    texto.split(/\n\s*\n/).forEach(par => {
+        (par.trim().match(/[^.!?…]+[.!?…]+["»”]?\s*|[^.!?…]+$/g) || []).forEach(frase => {
+            let f = frase.trim();
+            while(f.length > 150){
+                let corte = f.lastIndexOf(",", 150);
+                if(corte < 60) corte = f.lastIndexOf(" ", 150);
+                trozos.push(f.slice(0, corte + 1).trim());
+                f = f.slice(corte + 1).trim();
+            }
+            if(f) trozos.push(f);
+        });
+    });
+    return trozos;
+}
+
+const N = {
+    trozos: trocearHistoria(HISTORIA_TEXTO), i: 0,
+    activo: false, hablando: false, pausado: false, terminado: false,
+    sesion: 0, modo: null, voz: null, archivo: null, proboLocal: false,
+    timer: null, inicioTimer: null
+};
+
+function narradorHablando(){ return N.activo && N.hablando && !N.pausado && !N.terminado; }
+
+function vocesEspanol(){
+    const ss = window.speechSynthesis;
+    return ss ? ss.getVoices().filter(v => /^es/i.test((v.lang || "").replace("_", "-"))) : [];
+}
+function puntuarVoz(v){
+    const n = v.name.toLowerCase(), l = (v.lang || "").toLowerCase().replace("_", "-");
+    let p = 0;
+    if(/natural|neural/.test(n)) p += 6;
+    if(/online/.test(n)) p += 2;
+    if(/google/.test(n)) p += 1;
+    if(/es-(mx|us|419|pe|co|ar|cl)/.test(l)) p += 2; else if(l === "es-es") p += 1;
+    return p;
+}
+function esperarVoces(){
+    return new Promise(res => {
+        const ss = window.speechSynthesis;
+        if(!ss || ss.getVoices().length) return res();
+        const fin = () => { ss.removeEventListener?.("voiceschanged", fin); res(); };
+        ss.addEventListener?.("voiceschanged", fin);
+        setTimeout(fin, 1500);
+    });
+}
+
+function pintarNarracion(){
+    const t = $("narracionTexto"), p = $("narracionProgreso"), b = $("btnNarracion");
+    if(!t) return;
+    t.textContent = N.terminado ? "Fin de la narración. Pulsa ↻ para escucharla otra vez." : (N.trozos[N.i] || "");
+    if(p) p.style.width = (N.terminado ? 100 : Math.round(N.i / N.trozos.length * 100)) + "%";
+    if(b){
+        b.textContent = N.terminado ? "↻" : (N.pausado ? "▶" : "❚❚");
+        b.setAttribute("aria-label", N.terminado ? "Escuchar de nuevo" : (N.pausado ? "Continuar narración" : "Pausar narración"));
+    }
+    $("narracionBarra")?.classList.remove("oculta");
+}
+
+function iniciarNarracion(){
+    if(N.activo) return;            // irACapitulo puede llamarse dos veces por clic
+    N.activo = true; N.terminado = false; N.pausado = false; N.hablando = false;
+    N.i = 0; N.proboLocal = false; N.sesion++;
+    pintarNarracion();
+    const ses = N.sesion;
+    clearTimeout(N.inicioTimer);
+    N.inicioTimer = setTimeout(() => { if(ses === N.sesion) comenzarNarracion(ses); }, 600);
+}
+
+async function comenzarNarracion(ses){
+    // 1) Grabación propia, si existe
+    try{
+        const a = new Audio(NARRACION_ARCHIVO);
+        a.volume = volumenFinal(1);
+        await a.play();
+        if(ses !== N.sesion){ a.pause(); return; }
+        N.modo = "archivo"; N.archivo = a; N.hablando = true;
+        const total = N.trozos.reduce((s, t) => s + t.length, 0);
+        a.addEventListener("timeupdate", () => {
+            if(N.archivo !== a || !a.duration) return;
+            const f = a.currentTime / a.duration;
+            let acum = 0, idx = N.trozos.length - 1;
+            for(let k = 0; k < N.trozos.length; k++){
+                acum += N.trozos[k].length;
+                if(f <= acum / total){ idx = k; break; }
+            }
+            if(idx !== N.i){ N.i = idx; pintarNarracion(); }
+        });
+        a.addEventListener("ended", () => { if(N.archivo === a) terminarNarracion(); });
+        aplicarAjustes(); pintarNarracion();
+        return;
+    }catch(e){ /* no hay archivo: se usa la voz del navegador */ }
+
+    // 2) Voz del navegador en español
+    N.modo = "texto";
+    if("speechSynthesis" in window && "SpeechSynthesisUtterance" in window){
+        await esperarVoces();
+        if(ses !== N.sesion) return;
+        const es = vocesEspanol().sort((a, b) => puntuarVoz(b) - puntuarVoz(a));
+        if(es.length){ N.voz = es[0]; N.modo = "voz"; }
+        else if(!window.speechSynthesis.getVoices().length){ N.voz = null; N.modo = "voz"; }
+        window.speechSynthesis.cancel();
+    }
+    // 3) Si no hay voz, N.modo queda en "texto" y solo avanzan los subtítulos
+    N.hablando = N.modo === "voz";
+    aplicarAjustes();
+    hablarTrozo(ses);
+}
+
+function hablarTrozo(ses){
+    if(ses !== N.sesion || !N.activo || N.pausado) return;
+    if(N.i >= N.trozos.length){ terminarNarracion(); return; }
+    pintarNarracion();
+    const texto = N.trozos[N.i];
+    const avanzar = () => { if(ses !== N.sesion || N.pausado) return; N.i++; hablarTrozo(ses); };
+
+    if(N.modo === "voz"){
+        const u = new SpeechSynthesisUtterance(texto);
+        u.lang = N.voz ? N.voz.lang : "es-ES";
+        if(N.voz) u.voice = N.voz;
+        u.rate = 0.95; u.pitch = 0.92; u.volume = volumenFinal(1);
+        u.onend = avanzar;
+        u.onerror = e => {
+            if(ses !== N.sesion || e.error === "interrupted" || e.error === "canceled") return;
+            // La voz falló (p. ej. una voz "online" sin internet): probar una local y, si no, seguir solo con texto
+            const local = vocesEspanol().filter(v => v.localService && v !== N.voz).sort((a, b) => puntuarVoz(b) - puntuarVoz(a))[0];
+            if(local && !N.proboLocal){ N.proboLocal = true; N.voz = local; hablarTrozo(ses); }
+            else{ N.modo = "texto"; N.hablando = false; aplicarAjustes(); hablarTrozo(ses); }
+        };
+        window.speechSynthesis.speak(u);
+    }else{
+        N.timer = setTimeout(avanzar, Math.max(1800, texto.split(/\s+/).length * 380));
+    }
+}
+
+function terminarNarracion(){
+    N.terminado = true; N.hablando = false; N.pausado = false;
+    N.i = Math.max(0, N.trozos.length - 1);
+    aplicarAjustes(); pintarNarracion();
+}
+
+function pausarNarracion(){
+    if(!N.activo || N.pausado || N.terminado) return;
+    N.pausado = true; N.sesion++;               // invalida lo que esté en curso
+    clearTimeout(N.timer);
+    if(N.modo === "archivo") N.archivo?.pause(); else window.speechSynthesis?.cancel();
+    aplicarAjustes(); pintarNarracion();
+}
+
+function continuarNarracion(){
+    if(!N.activo || !N.pausado) return;
+    N.pausado = false;
+    if(N.modo === "archivo") N.archivo?.play().catch(() => {});
+    else{ const ses = N.sesion; setTimeout(() => hablarTrozo(ses), 120); }
+    aplicarAjustes(); pintarNarracion();
+}
+
+function alternarNarracion(){
+    if(!N.activo) return;
+    if(N.terminado){                              // escuchar de nuevo
+        N.terminado = false; N.pausado = false; N.i = 0; N.sesion++;
+        if(N.modo === "archivo"){ N.archivo.currentTime = 0; N.archivo.play().catch(() => {}); N.hablando = true; }
+        else{ N.hablando = N.modo === "voz"; const ses = N.sesion; window.speechSynthesis?.cancel(); setTimeout(() => hablarTrozo(ses), 120); }
+        aplicarAjustes(); pintarNarracion();
+    }else if(N.pausado) continuarNarracion();
+    else pausarNarracion();
+}
+
+function detenerNarracion(ocultar){
+    N.sesion++;
+    clearTimeout(N.timer); clearTimeout(N.inicioTimer);
+    if(N.archivo){ N.archivo.pause(); N.archivo = null; }
+    window.speechSynthesis?.cancel();
+    N.activo = false; N.hablando = false; N.pausado = false; N.terminado = false; N.i = 0;
+    aplicarAjustes();
+    if(ocultar) $("narracionBarra")?.classList.add("oculta");
+}
+
+/* Voz corta de la misión (botón ▶ o tecla Enter en la pantalla del capítulo) */
+async function alternarVozMision(){
+    const voz = $("audioMision");
+    if(!voz) return;
+    if(!voz.paused){ voz.pause(); return; }
+    pausarNarracion();                            // dos voces a la vez no se entienden
+    if(voz.readyState === 0) voz.load();
+    voz.volume = volumenFinal(VOLUMEN_BASE.audioMision);
+    try{ await voz.play(); }
+    catch(e){ console.error("No se pudo reproducir la voz de la misión:", e); }
+}
+
+/* ---------------------------------------------------------
    NAVEGACIÓN
 --------------------------------------------------------- */
 function irAReglas(){
+    document.activeElement?.blur?.();
     $("pantallaInicio")?.classList.remove("activa");
     $("pantallaReglas")?.classList.add("activa");
 }
 function irACapitulo(){
+    document.activeElement?.blur?.();   // evita que Enter/Espacio reactiven el botón anterior ya oculto
     $("pantallaReglas")?.classList.remove("activa");
     $("pantallaCapitulo")?.classList.add("activa");
+    iniciarNarracion();
 }
 function mostrarPantalla(id){
     document.querySelectorAll(".pantalla").forEach(p => p.classList.remove("activa"));
     $(id)?.classList.add("activa");
+    document.activeElement?.blur?.();
+    if(id !== "pantallaCapitulo") detenerNarracion();
+    actualizarMusicaMenu();
 }
 
 /* ---------------------------------------------------------
@@ -27,7 +400,7 @@ function textoVidas(n){
 function reproducir(id, volumen){
     const a = $(id);
     if(!a) return;
-    a.volume = volumen;
+    a.volume = volumenFinal(volumen);
     a.currentTime = 0;
     a.play().catch(() => {});
 }
@@ -41,7 +414,7 @@ function sonarDisparo(volumen){
     const base = $("sonidoDisparo");
     if(!base) return;
     const a = base.cloneNode(true);
-    a.volume = volumen;
+    a.volume = volumenFinal(volumen);
     a.currentTime = 0;
     a.play().catch(() => {});
     a.addEventListener("ended", () => a.remove());
@@ -71,6 +444,37 @@ function cuentaRegresiva(elCuenta, elFuego, alTerminar){
 function colision(elA, elB){
     const A = elA.getBoundingClientRect(), B = elB.getBoundingClientRect();
     return !(A.right < B.left + 5 || A.left > B.right - 5 || A.bottom < B.top + 5 || A.top > B.bottom - 5);
+}
+
+/* ---------------------------------------------------------
+   EXPLOSIÓN DE METEORITOS (bola de fuego + onda + chispas)
+--------------------------------------------------------- */
+function crearExplosion(campoEl, cx, cy, size){
+    const e = document.createElement("div");
+    e.className = "explosion-meteorito";
+    e.style.left = cx + "px";
+    e.style.top = cy + "px";
+    e.style.setProperty("--t", (size * 2.4) + "px");
+    e.innerHTML = '<i class="destello"></i><i class="bola"></i><i class="onda"></i>';
+    const n = 12;
+    for(let k = 0; k < n; k++){
+        const c = document.createElement("b");
+        c.className = "chispa-expl";
+        const ang = (k / n) * Math.PI * 2 + Math.random() * 0.5;
+        const dist = size * (0.7 + Math.random() * 0.9);
+        c.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+        c.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+        c.style.animationDelay = (Math.random() * 0.05) + "s";
+        e.appendChild(c);
+    }
+    campoEl.appendChild(e);
+    setTimeout(() => e.remove(), 750);
+}
+
+/* Niveles 1 y 2: toma el centro real del meteorito en pantalla */
+function explotarMeteorito(campoEl, m){
+    const cr = campoEl.getBoundingClientRect(), r = m.el.getBoundingClientRect();
+    crearExplosion(campoEl, r.left + r.width / 2 - cr.left, r.top + r.height / 2 - cr.top, m.size);
 }
 
 /* =========================================================
@@ -122,7 +526,7 @@ function crearNivelNormal(cfg){
     function comenzar(){
         s.jugando = true;
         const musica = $("musicaNivel1");
-        musica.volume = cfg.volumenMusica;
+        musica.volume = volumenFinal(cfg.volumenMusica);
         musica.currentTime = 0;
         musica.play().catch(() => {});
         s.reloj = setInterval(() => {
@@ -167,12 +571,19 @@ function crearNivelNormal(cfg){
         const ancho = esCometa ? 36 + Math.random() * 14 : 48 + Math.random() * 22;
         el.style.width = ancho + "px";
         el.style.height = ancho + "px";
-        const x = 4 + Math.random() * 92;
-        el.style.left = x + "%";
+        // El centro del meteorito siempre cae dentro de la franja que la nave sí puede
+        // cubrir (7%–93% del ancho, igual que el límite de moverNave), así que ninguno
+        // queda fuera del alcance del disparo.
+        const w = $(ids.escenario).clientWidth;
+        const minC = Math.max(w * 0.07, ancho / 2);
+        const maxC = Math.min(w * 0.93, w - ancho / 2);
+        const centro = minC + Math.random() * Math.max(0, maxC - minC);
+        const x = centro - ancho / 2;
+        el.style.left = x + "px";
         el.style.top = "-75px";
         $(ids.meteoritos).appendChild(el);
         s.meteoritos.push({
-            el, xPct: x, y: -75, size: ancho,
+            el, x, y: -75, size: ancho,
             valor: esCometa ? 2 : 1,
             speed: cfg.velocidadMeteorito * (.75 + Math.random() * .35) * (esCometa ? cfg.multiplicadorCometa : 1)
         });
@@ -204,6 +615,7 @@ function crearNivelNormal(cfg){
             for(let j = s.meteoritos.length - 1; j >= 0; j--){
                 const m = s.meteoritos[j];
                 if(colision(b.el, m.el)){
+                    explotarMeteorito($(ids.escenario), m);
                     b.el.remove(); m.el.remove();
                     s.disparos.splice(i, 1);
                     s.meteoritos.splice(j, 1);
@@ -340,13 +752,15 @@ const nivel3 = {
 // ---- Sonidos sintetizados (no requieren archivos) ----
 let ctxAudio3 = null;
 function sfx3(tipo){
+  if(ajustes.volumen<=0) return;
   try{
     ctxAudio3 = ctxAudio3 || new (window.AudioContext||window.webkitAudioContext)();
     const c = ctxAudio3; if(c.state==='suspended') c.resume();
     const tono = (f1,f2,dur,type,vol,delay=0)=>{
       const o=c.createOscillator(), g=c.createGain(), t=c.currentTime+delay;
       o.type=type; o.frequency.setValueAtTime(f1,t); o.frequency.exponentialRampToValueAtTime(Math.max(30,f2),t+dur);
-      g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+      const v=vol*ajustes.volumen; if(v<.0011) return;
+      g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
       o.connect(g).connect(c.destination); o.start(t); o.stop(t+dur+.02);
     };
     if(tipo==='disparo') tono(900,260,.12,'square',.05);
@@ -413,7 +827,7 @@ function iniciarNivel3(){
 
 function comenzarNivel3(){
   const n=nivel3; n.jugando=true;
-  const m=$('musicaNivel3'); if(m){m.volume=.3;m.playbackRate=1.12;m.currentTime=0;m.play().catch(()=>{});}
+  const m=$('musicaNivel3'); if(m){m.volume=volumenFinal(.3);m.playbackRate=1.12;m.currentTime=0;m.play().catch(()=>{});}
   n.reloj=setInterval(()=>{
     if(!n.jugando||n.pausado)return;
     n.tiempo--; actualizarHUDNivel3();
@@ -441,7 +855,7 @@ function crearLaser(x){
 function crearMeteoro3(w){
   const el=document.createElement('img'); el.src='assets/meteorito_nivel1.png'; el.className='meteoro-n3'; el.alt='';
   const size=44+Math.random()*24; el.style.width=el.style.height=size+'px';
-  const x=30+Math.random()*(w-60); el.style.left=x+'px'; el.style.top='-70px';
+  const x=w*.07+Math.random()*w*.86; el.style.left=x+'px'; el.style.top='-70px';
   $('meteorosN3').appendChild(el);
   nivel3.meteoros.push({el,x,y:-70,size,vy:2.1+Math.random()*1.4+nivel3.fase*.25,rot:Math.random()*360,vr:(Math.random()-.5)*5});
 }
@@ -453,7 +867,7 @@ function crearDrop(w,tipo){
     tipo=opciones[Math.floor(Math.random()*opciones.length)];
   }
   const el=document.createElement('div'); el.className='drop-n3 '+tipo; el.textContent={vida:'♥',rapido:'⚡',escudo:'◈'}[tipo];
-  const x=40+Math.random()*(w-80); el.style.left=x+'px'; el.style.top='-30px';
+  const x=w*.08+Math.random()*w*.84; el.style.left=x+'px'; el.style.top='-30px';
   $('dropsN3').appendChild(el); n.drops.push({el,x,y:-30,tipo});
 }
 function explosionN3(x,y,color){
@@ -609,7 +1023,7 @@ function actualizarNivel3(ts){
     for(let j=n.meteoros.length-1;j>=0;j--){
       const m=n.meteoros[j];
       if(Math.abs(b.x-m.x)<m.size*.5 && Math.abs(b.y-m.y)<m.size*.5+8){
-        explosionN3(m.x,m.y,'#ffb04d'); m.el.remove(); n.meteoros.splice(j,1);
+        crearExplosion($('escenarioNivel3'),m.x,m.y,m.size); m.el.remove(); n.meteoros.splice(j,1);
         b.el.remove(); n.disparos.splice(i,1); usada=true; break;
       }
     }
@@ -688,13 +1102,13 @@ function finalizarNivel3(gano,motivo){
     n.fin=setTimeout(()=>{
       $('puntosVictoriaNivel3').textContent=n.puntos;
       $('vidasVictoriaNivel3').textContent=n.vidas;
-      const a=$('sonidoVictoria'); if(a){a.currentTime=0;a.volume=.8;a.play().catch(()=>{});}
+      const a=$('sonidoVictoria'); if(a){a.currentTime=0;a.volume=volumenFinal(.8);a.play().catch(()=>{});}
       mostrarPantalla('pantallaVictoriaNivel3');
     },2100);
   }else{
     $('jefeRestanteNivel3').textContent=Math.max(0,Math.round(n.jefeVida/N3_VIDA_JEFE*100))+'%';
     const t=$('textoDerrotaNivel3'); if(t)t.textContent=motivo||'EL TITÁN IRON TE HA VENCIDO';
-    const a=$('sonidoGameOver'); if(a){a.currentTime=0;a.volume=.8;a.play().catch(()=>{});}
+    const a=$('sonidoGameOver'); if(a){a.currentTime=0;a.volume=volumenFinal(.8);a.play().catch(()=>{});}
     mostrarPantalla('pantallaGameOverNivel3');
   }
 }
@@ -718,22 +1132,15 @@ function ligarMovimiento(idBoton, tecla){
 function alClick(id, fn){ $(id)?.addEventListener("click", fn); }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const btnPlay = $("btnPlayCapitulo");
-    const audioMision = $("audioMision");
-
+    iniciarAjustes();
+    iniciarMusicaMenu();
     // Inicio → reglas → capítulo
     alClick("btnPreparado", irAReglas);
     alClick("btnListo", irACapitulo);
     alClick("btnPreparadoCapitulo", nivel1.iniciar);
 
-    btnPlay?.addEventListener("click", async () => {
-        if(!audioMision) return;
-        try{
-            if(audioMision.paused){ await audioMision.play(); btnPlay.textContent = "❚❚"; }
-            else{ audioMision.pause(); btnPlay.textContent = "▶"; }
-        }catch(e){ console.error(e); }
-    });
-    audioMision?.addEventListener("ended", () => { btnPlay.textContent = "▶"; audioMision.currentTime = 0; });
+    alClick("btnNarracion", alternarNarracion);
+    alClick("btnOmitirNarracion", () => detenerNarracion(true));
 
     // Nivel 1
     ligarMovimiento("moverIzq", "ArrowLeft");
@@ -776,6 +1183,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Teclado
     const niveles = [nivel1, nivel2, controlNivel3];
     window.addEventListener("keydown", e => {
+        if(e.target?.closest?.("#ajustesJuego")) return;
+        if(e.key === "Enter" && !e.repeat && $("pantallaCapitulo")?.classList.contains("activa")){
+            const ae = document.activeElement;
+            const botonDelCapitulo = ae && $("pantallaCapitulo").contains(ae) && /^(BUTTON|A|INPUT|SELECT|TEXTAREA)$/.test(ae.tagName);
+            if(!botonDelCapitulo){ e.preventDefault(); alternarVozMision(); return; }
+        }
         if(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key) || e.code === "Space") e.preventDefault();
         teclas[e.key] = true;
         if(e.code === "Space" && !e.repeat){

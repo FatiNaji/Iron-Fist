@@ -1056,3 +1056,155 @@ button{
 .creditos-iron-fist ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px}
 .creditos-iron-fist li{font-size:12px;color:#fff;line-height:1.45}
 .creditos-iron-fist span{display:block;color:#9eb5ff;font-size:11px;overflow-wrap:anywhere}
+
+
+/* =========================================================
+   AJUSTES: VOLUMEN Y BRILLO
+========================================================= */
+html.con-brillo .pantalla{filter:brightness(var(--brillo,1))}
+
+.ajustes-juego{position:fixed;z-index:9999;right:12px;bottom:14px;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.ajustes-boton{width:42px;height:42px;border:1px solid #8f58ff;border-radius:50%;background:rgba(18,9,42,.95);color:#fff;font-size:21px;line-height:1;cursor:pointer;box-shadow:0 0 14px rgba(120,57,255,.45);display:grid;place-items:center;padding:0}
+.ajustes-boton:hover{background:rgba(50,22,91,.95);box-shadow:0 0 18px rgba(143,88,255,.7)}
+.ajustes-panel{width:min(260px,82vw);padding:16px 18px 18px;border:1px solid #9a61ff;border-radius:14px;background:rgba(7,5,20,.96);box-shadow:0 0 30px rgba(116,54,255,.45);color:#fff;font-family:"Orbitron",sans-serif;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;transition:.18s ease}
+.ajustes-panel.abierto{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+.ajustes-panel h3{margin:0 0 12px;font:900 13px Orbitron,sans-serif;letter-spacing:3px;color:#c276ff;text-align:center}
+.ajuste-fila{display:flex;justify-content:space-between;align-items:center;margin:10px 0 4px;font:700 10px Orbitron,sans-serif;letter-spacing:1px;color:#d9d2ff}
+.ajuste-fila b{color:#aee8ff;font-size:11px}
+.ajustes-panel input[type=range]{width:100%;height:26px;margin:0;accent-color:#a35cff;cursor:pointer}
+.ajustes-reset{display:block;width:100%;margin-top:12px;padding:9px 0;border:1px solid #b45dff;border-radius:8px;background:linear-gradient(90deg,#6522a7,#4030a7);color:#fff;font:800 10px Orbitron,sans-serif;letter-spacing:1px;cursor:pointer}
+
+
+/* =========================================================
+   EXPLOSIÓN DE METEORITOS
+========================================================= */
+.explosion-meteorito{position:absolute;width:0;height:0;z-index:12;pointer-events:none}
+.explosion-meteorito i,.explosion-meteorito b{position:absolute;left:0;top:0;display:block;pointer-events:none}
+.explosion-meteorito .destello{width:calc(var(--t)*.55);height:calc(var(--t)*.55);margin:calc(var(--t)*-.275) 0 0 calc(var(--t)*-.275);border-radius:50%;background:radial-gradient(circle,#fff 0,#fff 35%,rgba(255,255,255,0) 70%);animation:destelloExpl .22s ease-out forwards}
+.explosion-meteorito .bola{width:var(--t);height:var(--t);margin:calc(var(--t)/-2) 0 0 calc(var(--t)/-2);border-radius:50%;background:radial-gradient(circle,#fff6c4 0 14%,#ffd24d 28%,#ff8a1f 50%,#e2331b 72%,rgba(120,10,10,0) 100%);box-shadow:0 0 22px #ff8a1f,0 0 48px rgba(255,80,20,.6);animation:bolaExpl .5s ease-out forwards}
+.explosion-meteorito .onda{width:var(--t);height:var(--t);margin:calc(var(--t)/-2) 0 0 calc(var(--t)/-2);border-radius:50%;border:3px solid rgba(255,214,150,.95);box-shadow:0 0 14px rgba(255,150,60,.8);animation:ondaExpl .55s ease-out forwards}
+.explosion-meteorito .chispa-expl{width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;background:#ffe08a;box-shadow:0 0 8px #ff9a2e,0 0 14px #ff5a1a;animation:chispaExpl .6s cubic-bezier(.1,.7,.3,1) forwards}
+@keyframes destelloExpl{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
+@keyframes bolaExpl{0%{transform:scale(.15);opacity:1}45%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+@keyframes ondaExpl{0%{transform:scale(.2);opacity:.95}100%{transform:scale(1.5);opacity:0}}
+@keyframes chispaExpl{0%{transform:translate(0,0) scale(1.3);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+
+/* =========================================================
+   TEMÁTICA ESPACIAL — TIPOGRAFÍA Y AMBIENTE DE LOS MENÚS
+   (inicio, reglas, capítulo, presentaciones y finales)
+========================================================= */
+:root{--cian:#6fe3ff}
+
+/* Títulos: blanco frío con halo de nebulosa */
+.titulo-inicio,.encabezado-reglas h1,.titulo-historia h1,.capitulo-etiqueta,
+.panel-capitulo > h2,.intro-titulo,.final-juego-panel.victoria-panel h1{
+    color:#eef8ff;
+    text-shadow:0 0 10px rgba(111,227,255,.45),0 0 26px rgba(90,120,255,.35);
+}
+.titulo-inicio{letter-spacing:2px}
+.encabezado-reglas h1,.titulo-historia h1{letter-spacing:3px}
+
+/* Líneas de acento: degradado cian → violeta → magenta con destello que recorre el texto */
+@keyframes brilloTexto{from{background-position:0% 50%}to{background-position:200% 50%}}
+.titulo-inicio span,.encabezado-reglas h2,.titulo-historia h2,.intro-titulo span{
+    background:linear-gradient(90deg,#4be1ff,#7a6bff,#e052ff,#7a6bff,#4be1ff);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+    text-shadow:none;
+    filter:drop-shadow(0 0 10px rgba(120,100,255,.55));
+    animation:brilloTexto 6s linear infinite;
+}
+.intro-final .intro-titulo span{
+    background-image:linear-gradient(90deg,#ff8a5c,#ff3ea5,#d05cff,#ff3ea5,#ff8a5c);
+    color:transparent;
+    text-shadow:none;
+    filter:drop-shadow(0 0 10px rgba(255,60,150,.6));
+}
+
+/* Subtítulos de las reglas */
+.contenido-regla h3{color:#7fe8ff;letter-spacing:2px;text-shadow:0 0 10px rgba(111,227,255,.5)}
+
+/* Párrafos: tipografía técnica legible y tono azulado frío */
+.descripcion,.contenido-regla p,.bloque-mision p,.bloque-objetivo p,.intro-objetivo p,.final-juego-panel p{
+    font-family:"Exo 2",Arial,sans-serif;
+    font-weight:500;
+    color:#dbe6ff;
+}
+.intro-objetivo p{font-family:"Exo 2",system-ui,Arial,sans-serif}
+
+/* Palabras clave resaltadas con brillo cian */
+.descripcion strong,.contenido-regla strong,.intro-objetivo p b.resalta{
+    color:#8fe9ff;
+    text-shadow:0 0 8px rgba(111,227,255,.55);
+}
+
+/* Botones: letras con resplandor y destello que cruza */
+.boton-principal,.boton-listo,.boton-capitulo,.intro-boton{
+    position:relative;overflow:hidden;
+    letter-spacing:2px;
+    text-shadow:0 0 10px rgba(190,230,255,.7);
+}
+.boton-principal::after,.boton-listo::after,.boton-capitulo::after,.intro-boton::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);
+    transform:translateX(-130%);
+    animation:brilloSiguiente 3.2s ease-in-out infinite;
+}
+
+/* Esquinas tipo panel de nave */
+.panel-inicio,.regla,.panel-capitulo,.panel-nivel-intro,.final-juego-panel{position:relative}
+.panel-inicio::before,.panel-inicio::after,.regla::before,.regla::after,
+.panel-capitulo::before,.panel-capitulo::after,.panel-nivel-intro::before,.panel-nivel-intro::after,
+.final-juego-panel::before,.final-juego-panel::after{
+    content:"";position:absolute;width:22px;height:22px;pointer-events:none;
+    border:0 solid var(--cian);
+    filter:drop-shadow(0 0 4px var(--cian));
+    opacity:.85;
+}
+.panel-inicio::before,.regla::before,.panel-capitulo::before,.panel-nivel-intro::before,.final-juego-panel::before{
+    top:9px;left:9px;border-top-width:2px;border-left-width:2px;border-top-left-radius:7px;
+}
+.panel-inicio::after,.regla::after,.panel-capitulo::after,.panel-nivel-intro::after,.final-juego-panel::after{
+    right:9px;bottom:9px;border-right-width:2px;border-bottom-width:2px;border-bottom-right-radius:7px;
+}
+.regla::before,.regla::after{width:12px;height:12px}
+.regla::before{top:5px;left:5px}
+.regla::after{right:5px;bottom:5px}
+
+/* Estrellas que titilan y derivan despacio detrás de los paneles */
+@keyframes titilar{0%,100%{opacity:.18}50%{opacity:.5}}
+@keyframes derivaEstrellas{to{background-position:300px 600px,-200px 400px}}
+.inicio::after,.reglas::after,.capitulo::after,.nivel-intro::after,.final-juego::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:
+        radial-gradient(circle,rgba(190,225,255,.9) 0 1px,transparent 1.6px),
+        radial-gradient(circle,rgba(255,200,255,.8) 0 1.2px,transparent 2px);
+    background-size:210px 210px,340px 340px;
+    background-position:40px 70px,160px 20px;
+    animation:titilar 4s ease-in-out infinite,derivaEstrellas 160s linear infinite;
+}
+
+@media (prefers-reduced-motion:reduce){
+    .titulo-inicio span,.encabezado-reglas h2,.titulo-historia h2,.intro-titulo span,
+    .boton-principal::after,.boton-listo::after,.boton-capitulo::after,.intro-boton::after,
+    .inicio::after,.reglas::after,.capitulo::after,.nivel-intro::after,.final-juego::after{animation:none}
+}
+
+
+/* =========================================================
+   NARRACIÓN DE LA HISTORIA (subtítulos sobre el video del capítulo)
+========================================================= */
+.media-historia{position:relative}
+.narracion{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid rgba(111,227,255,.55);border-radius:12px;background:linear-gradient(90deg,rgba(4,8,30,.9),rgba(18,8,48,.84));backdrop-filter:blur(5px);box-shadow:0 0 16px rgba(80,120,255,.35);transition:opacity .3s ease,transform .3s ease}
+.narracion.oculta{opacity:0;transform:translateY(10px);pointer-events:none}
+.narracion-boton{flex:0 0 40px;width:40px;height:40px;border:1px solid #8f58ff;border-radius:50%;background:rgba(34,29,85,.9);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center;padding:0;box-shadow:0 0 12px rgba(107,61,255,.6)}
+.narracion-boton:hover{background:rgba(70,40,140,.95)}
+.narracion-cuerpo{flex:1;min-width:0}
+.narracion-etiqueta{display:block;margin-bottom:3px;color:#6fe3ff;font:800 9px Orbitron,sans-serif;letter-spacing:3px}
+.narracion-cuerpo p{min-height:2.7em;color:#eaf2ff;font:500 14px/1.35 "Exo 2",Arial,sans-serif;text-shadow:0 1px 6px #000}
+.narracion-progreso{margin-top:6px;height:3px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}
+.narracion-progreso i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4be1ff,#a06bff,#e052ff);transition:width .4s linear}
+.narracion-omitir{flex:0 0 auto;border:0;background:none;color:#9d91b9;font:700 10px Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;padding:6px}
+.narracion-omitir:hover{color:#fff}
+@media(max-width:600px){.narracion{left:6px;right:6px;bottom:6px;padding:8px;gap:8px}.narracion-cuerpo p{font-size:12px}}
